@@ -1,3 +1,4 @@
+const cors = require('cors');
 const jsdom = require('jsdom');
 const express = require('express');
 const helmet = require('helmet');
@@ -117,7 +118,7 @@ function filterMenu(menus, excludeSup, excludeTags) {
     return menus;
 }
 
-app.get("/api", parseQuery, (req, res) => {
+app.get("/api", cors(), parseQuery, (req, res) => {
     if (req.query.excludeTags.length != 0 || req.query.excludeSup.length != 0) {
         console.log("GET received from " + req.ip + " with Query: " + req.query.excludeSup + " " + req.query.excludeTags);
     } else {
