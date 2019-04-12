@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prevent Ingredient 31</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+        
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css">-->
+        
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="js/init.js"></script>
+</head>
+
+<body>
+    <!--<div class="hider"><i class="fas fa-circle-notch fa-spin fa-3x fa-fw margin-bottom spinny-boi"></i></div>-->
+    <div class="hider"><i class="fas fa-spin fa-2x fa-spin spinny-boi">Getting menu...</i></div>
+    <div class="container">
+        <h1 id="uglyTitle">Uni Konstanz Mensa</h1>
+        <div class="input-group mb-3 datePickerFilterDiv">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#supplements"
+                aria-expanded="false" aria-controls="collapseExample">
+                Exclude Filter
+            </button>
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+            </div>
+            <input class="form-control datePickerInput" type="text" placeholder="heute" id="calendar-dateboi" readonly>
+
+            <a class="page-link" href="javascript:previous();void(0);" aria-label="Previous" id="button-previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="page-link" href="javascript:next();void(0);" aria-label="Next" id="button-next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <div class="collapse" id="supplements">
+            <div class="card card-body card-allergens">
+                <form id="form-allergens">
+                    <div class="accordion" id="accordion">
+                        <div class="card">
+                            <div class="card-header h-25" id="headingAllergens" data-toggle="collapse" data-target="#collapseAllergens">
+                                Allergene
+                            </div>
+                            <div id="collapseAllergens" class="collapse" aria-labelledby="headingAllergens" data-parent="#accordion">
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header h-25" id="headingSupplements" data-toggle="collapse" data-target="#collapseSupplements">
+                                Zusatzstoffe
+                            </div>
+                            <div id="collapseSupplements" class="collapse" aria-labelledby="headingSupplements"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <table>
+                                        <tbody>
+                                            <!-- Pro Zeile in Zusatzstoffe ... -->
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <!-- ... nimm das hier-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header h-25" id="headingTags" data-toggle="collapse" data-target="#collapseTags">
+                                Tags
+                            </div>
+                            <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordion">
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <table class="table table-black">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Kategorie</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Preis</th>
+                    <th scope="col" colsp>Tag</th>
+                </tr>
+            </thead>
+            <tbody id="dishes">
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+<footer class="page-footer font-small blue">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">You gotta swing with Ying and jam with Sam (2019)
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- Page init -->
+    <script>init()</script>
+</body>
+
+</html>
