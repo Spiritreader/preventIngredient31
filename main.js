@@ -3,8 +3,8 @@ const jsdom = require('jsdom');
 const express = require('express');
 const helmet = require('helmet');
 const { JSDOM } = jsdom;
-const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/mensa-giessberg/';
-//const seezeitURL = 'https://www.seezeit.com/en/food/menus/giessberg-canteen/'
+const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
+const defaultMensa = 'mensa-giessberg';
 const app = express();
 const PORT = 1337;
 
@@ -124,7 +124,7 @@ app.get("/api", cors(), parseQuery, (req, res) => {
     } else {
         console.log("GET received from " + req.ip);
     }
-    JSDOM.fromURL(seezeitURL, '').then(dom => {
+    JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
         let menus = getAllMenus(dom.window.document);
         let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.excludeTags);
         res.json(menusFiltered).status(200);
@@ -139,6 +139,9 @@ app.listen(PORT, () => {
 })
 
 function parseQuery(req, res, next) {
+    if (!req.query.mensa) {
+        req.query.mensa = defaultMensa + "/";
+    }    
     const supplements = [];
     if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.excludeTags)) {
         res.send("400: Bad request boi. Do not send multiple queries of the same name!").status(400);

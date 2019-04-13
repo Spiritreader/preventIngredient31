@@ -51,7 +51,15 @@ function showMenu(menu, day) {
         let dishItemList = dish.Name.split("|");
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
+            console.log(dishListRegexMatch);
             let name = dishItemList[i].replace(dishListRegexMatch, "").trim();
+            /*let name = dishItemList[i];
+            if (dishListRegexMatch) {
+                dishListRegexMatch.forEach((rex) => {
+                    name = name.replace(rex, "").trim();
+                })
+            }*/
+            console.log(name);
             let supplements = dishListRegexMatch ? dishListRegexMatch.toString() : "";
             if (supplements !== "") {
                 supplements = supplements.replace(/\(|\)/g, "");

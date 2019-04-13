@@ -8,10 +8,10 @@
     <title>MenSauni.kn</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
-        
+
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css">-->
-        
-    
+
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -97,10 +97,20 @@
             </div>
         </div>
 
-        <table class="table table-black">
+        <table class="table table-black" id="tableMenu">
+            <div id="hiderMenu"><i class="fas fa-spin fa-2x fa-spin spinny-boi" id="spinny-boi-menu">Getting menu...</i></div>
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Menu</th>
+                    <th id="chooseMensa" class="dropdown dropdown-toggle" scope="col" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Menu <span id="selectedUniversity">Uni KN</span>
+                        <div class="dropdown-menu" aria-labelledby="chooseMensa">
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-giessberg'); document.getElementById('selectedUniversity').innerText = 'Uni KN';">Uni Konstanz</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-htwg'); document.getElementById('selectedUniversity').innerText = 'HTWG KN';">HWTG Konstanz</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-weingarten'); document.getElementById('selectedUniversity').innerText = 'HS RV';">Hochschule Ravensburg</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-ravensburg'); document.getElementById('selectedUniversity').innerText = 'DHBW RV';">DHBW Ravensburg</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-friedrichshafen'); document.getElementById('selectedUniversity').innerText = 'DHBW FN';">DHBW Friedrichshafen</a>
+                        </div>
+                    </th>
                     <th scope="col">Preis</th>
                     <th scope="col">Kategorie</th>
                 </tr>
@@ -112,13 +122,13 @@
     </div>
 
     <!-- Footer -->
-<footer class="page-footer font-small blue">
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">You gotta swing with Ying and jam with Sam (2019)
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
+    <footer class="page-footer font-small blue">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">You gotta swing with Ying and jam with Sam (2019)
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

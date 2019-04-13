@@ -13,6 +13,20 @@ body {
     z-index: 10000;
 }
 
+.hiderMenu {
+    max-height: 500px;
+    width: 100%;
+    background-color: white;
+    display: block;
+    text-align: center;
+    line-height: 500px;
+    z-index: 999;
+}
+
+.hide {
+    display: none;
+}
+
 .page-footer {
     background: #E4E4E4;
 }
@@ -101,6 +115,10 @@ input[type='checkbox'] {
 
 /* Fix cards for ios -.- */
 .card {
+    cursor: pointer;
+}
+
+#chooseMensa {
     cursor: pointer;
 }
 

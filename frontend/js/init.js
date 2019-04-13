@@ -8,48 +8,74 @@ let supplementTranslation;
 let menuFirstDay;
 let menuLastDay;
 
-function init() {
+function init(mensaSelection) {
+    if (mensaSelection) {
+        let hiderMenu = document.getElementById("hiderMenu");
+        hiderMenu.classList.add("hiderMenu");
+        let spinnyBoi = document.getElementById("spinny-boi-menu");
+        spinnyBoi.classList.remove("hide");
+        let tableMenu = document.getElementById("tableMenu");
+        tableMenu.classList.add("hide");
+    }
     let isWeekend = (globalSelectedDate.getDay() === 6) || (globalSelectedDate.getDay() === 0);
     if (isWeekend) {
         globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
     }
     updateHeaderDay();
-    document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + (globalSelectedDate.getMonth() + 1);
-    $.get("/api", function (response) {
+    let month = globalSelectedDate.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month;
+    }
+    document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + month;
+    $.get("/api", { mensa: mensaSelection }, function (response) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
-        menuDatePickr = flatpickr("#calendar-dateboi", {
-            minDate: menuFirstDay,
-            maxDate: menuLastDay,
-            "disable": [
-                function (date) {
-                    // return true to disable
-                    return (date.getDay() === 6 || date.getDay() === 0);
+        if (!yolo) {
+            menuDatePickr = flatpickr("#calendar-dateboi", {
+                minDate: menuFirstDay,
+                maxDate: menuLastDay,
+                "disable": [
+                    function (date) {
+                        // return true to disable
+                        return (date.getDay() === 6 || date.getDay() === 0);
+                    }
+                ],
+                "locale": {
+                    "firstDayOfWeek": 1 // start week on Monday
+                },
+                dateFormat: "d.m",
+                onChange: dateChanger
+            });
+            $.ajax({
+                dataType: "json",
+                url: "./supplements.json"
+            }).done(function (data) {
+                if (!yolo) {
+                    // Show everything ;)
+                    let hider = document.getElementsByClassName("hider")[0];
+                    hider.parentNode.removeChild(hider);
+                    let hiderMenu = document.getElementById("hiderMenu");
+                    hiderMenu.classList.remove("hiderMenu");
+                    let spinnyBoi = document.getElementById("spinny-boi-menu");
+                    spinnyBoi.classList.add("hide");
+                    supplementTranslation = data;
+                    processCheckboxes(data);
+                    onChangeCheckbox();
+                    yolo = true;
+                    showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
                 }
-            ],
-            "locale": {
-                "firstDayOfWeek": 1 // start week on Monday
-            },
-            dateFormat: "d.m",
-            onChange: dateChanger
-        });
-        $.ajax({
-            dataType: "json",
-            url: "./supplements.json"
-        }).done(function (data) {
-            if (!yolo) {
-                // Show everything ;)
-                let hider = document.getElementsByClassName("hider")[0];
-                hider.parentNode.removeChild(hider);
+            })
+        } else {
+            showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+            let hiderMenu = document.getElementById("hiderMenu");
+            hiderMenu.classList.remove("hiderMenu");
+            let spinnyBoi = document.getElementById("spinny-boi-menu");
+            spinnyBoi.classList.add("hide");
+            let tableMenu = document.getElementById("tableMenu");
+            tableMenu.classList.remove("hide");
+        }
 
-                supplementTranslation = data;
-                processCheckboxes(data);
-                onChangeCheckbox();
-                yolo = true;
-                showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
-            }
-        })
 
     });
 
