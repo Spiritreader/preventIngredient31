@@ -85,6 +85,11 @@ input[type='checkbox'] {
     color: black;
 }
 
+/* Fix cards for ios -.- */
+.card {
+    cursor: pointer;
+}
+
 @media (max-width: 720px) {
     thead {
         font-size: 13px;
