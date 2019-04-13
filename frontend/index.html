@@ -32,7 +32,7 @@
         <div class="input-group mb-3 datePickerFilterDiv">
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#supplements"
                 aria-expanded="false" aria-controls="collapseExample">
-                Exclude-Filter
+                Filter
             </button>
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
@@ -55,7 +55,7 @@
                     <div class="accordion" id="accordion">
                         <div class="card">
                             <div class="card-header h-25" id="headingAllergens" data-toggle="collapse" data-target="#collapseAllergens">
-                                Allergene
+                                Allergene (ausschließen)
                             </div>
                             <div id="collapseAllergens" class="collapse" aria-labelledby="headingAllergens" data-parent="#accordion">
                                 <div class="card-body">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header h-25" id="headingSupplements" data-toggle="collapse" data-target="#collapseSupplements">
-                                Zusatzstoffe
+                                Zusatzstoffe (ausschließen)
                             </div>
                             <div id="collapseSupplements" class="collapse" aria-labelledby="headingSupplements"
                                 data-parent="#accordion">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header h-25" id="headingTags" data-toggle="collapse" data-target="#collapseTags">
-                                Kategorie
+                                Kategorie (einschließen)
                             </div>
                             <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordion">
                                 <div class="card-body">
@@ -104,11 +104,16 @@
                     <th id="chooseMensa" class="dropdown dropdown-toggle" scope="col" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Menu <span id="selectedUniversity">Uni KN</span>
                         <div class="dropdown-menu" aria-labelledby="chooseMensa">
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-giessberg'); document.getElementById('selectedUniversity').innerText = 'Uni KN';">Uni Konstanz</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-htwg'); document.getElementById('selectedUniversity').innerText = 'HTWG KN';">HWTG Konstanz</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-weingarten'); document.getElementById('selectedUniversity').innerText = 'HS RV';">Hochschule Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-ravensburg'); document.getElementById('selectedUniversity').innerText = 'DHBW RV';">DHBW Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-friedrichshafen'); document.getElementById('selectedUniversity').innerText = 'DHBW FN';">DHBW Friedrichshafen</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-giessberg'); document.getElementById('selectedUniversity').innerText = 'Uni KN';">Uni
+                                Konstanz</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-htwg'); document.getElementById('selectedUniversity').innerText = 'HTWG KN';">HWTG
+                                Konstanz</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-weingarten'); document.getElementById('selectedUniversity').innerText = 'HS RV';">Hochschule
+                                Ravensburg</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-ravensburg'); document.getElementById('selectedUniversity').innerText = 'DHBW RV';">DHBW
+                                Ravensburg</a>
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-friedrichshafen'); document.getElementById('selectedUniversity').innerText = 'DHBW FN';">DHBW
+                                Friedrichshafen</a>
                         </div>
                     </th>
                     <th scope="col">Preis</th>
@@ -122,13 +127,15 @@
     </div>
 
     <!-- Footer -->
-    <footer class="page-footer font-small blue">
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">You gotta swing with Ying and jam with Sam (2019)
-        </div>
-        <!-- Copyright -->
+    <footer class="d-flex justify-content-center mt-auto footer-copyright page-footer">
+            <!-- Copyright Info -->
+            <div class="align-center mb-2 mt-2">
+                You gotta swing with <b>Ying</b> and jam with <b>Sam</b> (2019) - <a class="font-weight-bold kf-blue kf-links" href="mailto:mensauni@gmail.com" target="_blank">Contact
+                        us!</a>
+            </div>
+            <!-- END Copyright Info -->
     </footer>
-    <!-- Footer -->
+    <!-- END Footer -->
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

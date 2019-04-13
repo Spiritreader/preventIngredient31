@@ -92,10 +92,10 @@ function getSupplements(string) {
 /**
  * Removes all items with the exclude tags or supplements
  * @param {*} menuItems String menu
- * @param {*} excludeTags Array with tags as strings (Veg, Vegan, Sch, R, G, L, W, F, B)
+ * @param {*} includeTags Array with tags as strings (Veg, Vegan, Sch, R, G, L, W, F, B)
  * @param {*} excludeSup Array with supplements as strings.
  */
-function filterMenu(menus, excludeSup, excludeTags) {
+function filterMenu(menus, excludeSup, includeTags) {
     menus.forEach((menu) => {
         let filtered = [];
         menu.dishes.forEach((item) => {
@@ -104,7 +104,11 @@ function filterMenu(menus, excludeSup, excludeTags) {
             if (!excludeSup) {
                 console.log("not");
             }
-            if (!tags.find(m => excludeTags.includes(m)) && !supplements.some(m => excludeSup.includes(m))) {
+            if (includeTags) {
+                if (includeTags && tags.find(m => includeTags.includes(m)) && !supplements.some(m => excludeSup.includes(m))) {
+                    filtered.push(item);
+                }
+            } else if (!supplements.some(m => excludeSup.includes(m))) {
                 filtered.push(item);
             }
         });
@@ -114,14 +118,14 @@ function filterMenu(menus, excludeSup, excludeTags) {
 }
 
 function handleApiGet(req, res) {
-    if (req.query.excludeTags.length != 0 || req.query.excludeSup.length != 0) {
-        console.log("GET received from " + req.ip + " with Query: " + req.query.excludeSup + " " + req.query.excludeTags);
+    if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
+        console.log("GET received from " + req.ip + " with Query: " + req.query.excludeSup + " " + req.query.includeTags);
     } else {
         console.log("GET received from " + req.ip);
     }
     JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
         let menus = getAllMenus(dom.window.document);
-        let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.excludeTags);
+        let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.includeTags);
         res.json(menusFiltered).status(200);
     });
 }
@@ -131,7 +135,7 @@ function parseQuery(req, res, next) {
         req.query.mensa = defaultMensa + "/";
     }
     const supplements = [];
-    if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.excludeTags)) {
+    if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.includeTags)) {
         res.send("400: Bad request boi. Do not send multiple queries of the same name!").status(400);
         return;
     }
@@ -145,15 +149,15 @@ function parseQuery(req, res, next) {
     }
     req.query.excludeSup = supplements;
 
-    const tags = [];
-    if (req.query.excludeTags) {
-        req.query.excludeTags.split(",").forEach((elem) => {
+    if (req.query.includeTags) {
+        const tags = [];
+        req.query.includeTags.split(",").forEach((elem) => {
             if (!tags.includes(elem)) {
                 tags.push(elem);
             }
         });
+        req.query.includeTags = tags;
     }
-    req.query.excludeTags = tags;
     next();
 }
 

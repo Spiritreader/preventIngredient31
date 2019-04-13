@@ -26,7 +26,11 @@ function init(mensaSelection) {
     if (month < 10) {
         month = "0" + month;
     }
-    document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + month;
+    let date = globalSelectedDate.getDate();
+    if (date < 10) {
+        date = "0" + date;
+    }
+    document.getElementById("calendar-dateboi").value = date + "." + month;
     $.get("/api", { mensa: mensaSelection }, function (response) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
@@ -67,8 +71,13 @@ function init(mensaSelection) {
                 }
             })
         } else {
+            console.log(menuAll);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            showMenu(filterMenu(menuToBeFiltered, excludeSup, excludeTags), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+            console.log("Menuparse:")
+            console.log(JSON.parse(JSON.stringify(menuAll)));
+            console.log("result:");
+            console.log(menuToBeFiltered);
+            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
             let hiderMenu = document.getElementById("hiderMenu");
             hiderMenu.classList.remove("hiderMenu");
             let spinnyBoi = document.getElementById("spinny-boi-menu");

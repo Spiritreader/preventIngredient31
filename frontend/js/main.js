@@ -1,5 +1,5 @@
 let excludeSup = [];
-let excludeTags = [];
+let includeTags = [];
 
 function onChangeCheckbox() {
     let url = "/api";
@@ -9,7 +9,7 @@ function onChangeCheckbox() {
             if (this.className.split(" ").includes("sups-checkbox")) {
                 excludeSup.push(this.id);
             } else if (this.className.split(" ").includes("tags-checkbox")) {
-                excludeTags.push(this.id);
+                includeTags.push(this.id);
             }
         } else {
             let index;
@@ -19,14 +19,14 @@ function onChangeCheckbox() {
                     excludeSup.splice(index, 1);
                 }
             } else if (this.className.split(" ").includes("tags-checkbox")) {
-                index = excludeTags.indexOf(this.id);
+                index = includeTags.indexOf(this.id);
                 if (index > -1) {
-                    excludeTags.splice(index, 1);
+                    includeTags.splice(index, 1);
                 }
             }
         }
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-        showMenu(filterMenu(menuToBeFiltered, excludeSup, excludeTags), globalSelectedDate);
+        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
 }
 
@@ -51,7 +51,6 @@ function showMenu(menu, day) {
         let dishItemList = dish.Name.split("|");
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
-            console.log(dishListRegexMatch);
             let name = dishItemList[i].replace(dishListRegexMatch, "").trim();
             /*let name = dishItemList[i];
             if (dishListRegexMatch) {
@@ -59,7 +58,6 @@ function showMenu(menu, day) {
                     name = name.replace(rex, "").trim();
                 })
             }*/
-            console.log(name);
             let supplements = dishListRegexMatch ? dishListRegexMatch.toString() : "";
             if (supplements !== "") {
                 supplements = supplements.replace(/\(|\)/g, "");
@@ -106,10 +104,10 @@ function showMenu(menu, day) {
 /**
  * Removes all items with the exclude tags or supplements
  * @param {*} menuItems String menu
- * @param {*} excludeTags Array with tags as strings (Veg, Vegan, Sch, R, G, L, W, F, B)
+ * @param {*} includeTags Array with tags as strings (Veg, Vegan, Sch, R, G, L, W, F, B)
  * @param {*} excludeSup Array with supplements as strings.
  */
-function filterMenu(menus, excludeSup, excludeTags) {
+function filterMenu(menus, excludeSup, includeTags) {
     menus.forEach((menu) => {
         let filtered = [];
         menu.dishes.forEach((item) => {
@@ -118,7 +116,11 @@ function filterMenu(menus, excludeSup, excludeTags) {
             if (!excludeSup) {
                 console.log("not");
             }
-            if (!tags.find(m => excludeTags.includes(m)) && !supplements.some(m => excludeSup.includes(m))) {
+            if (includeTags) {
+                if (includeTags && tags.find(m => includeTags.includes(m)) && !supplements.some(m => excludeSup.includes(m))) {
+                    filtered.push(item);
+                }
+            } else if (!supplements.some(m => excludeSup.includes(m))) {
                 filtered.push(item);
             }
         });
@@ -159,7 +161,7 @@ function previous() {
             menuDatePickr.setDate(globalSelectedDate);
             //showMenu(menuAll, globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            showMenu(filterMenu(menuToBeFiltered, excludeSup, excludeTags), globalSelectedDate);
+            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
     }
     if (globalSelectedDate.toDateString() === menuFirstDay.toDateString()) {
@@ -178,7 +180,7 @@ function next() {
             menuDatePickr.setDate(globalSelectedDate);
             //showMenu(menuAll, globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            showMenu(filterMenu(menuToBeFiltered, excludeSup, excludeTags), globalSelectedDate);
+            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
     }
     if (globalSelectedDate.toDateString() === menuLastDay.toDateString()) {
