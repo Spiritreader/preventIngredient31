@@ -9,6 +9,11 @@ const { JSDOM } = jsdom;
 const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
 const defaultMensa = 'mensa-giessberg';
 const app = express();
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/privkey.pem', 'utf8');
+const cert = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/chain.pem', 'utf8');
+
 const credentials = {
 	key: privateKey,
 	cert: cert,
@@ -17,9 +22,6 @@ const credentials = {
 const httpsServer = https.createServer(credentials, app);
 const httpServer = http.createServer(app);
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/privkey.pem', 'utf8');
-const cert = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/mensauni.de/chain.pem', 'utf8');
 
 /**
  * Retrieves all menus for each day available as well as all dishes for each menu
