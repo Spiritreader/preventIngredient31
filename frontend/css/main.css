@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto-light', sans-serif !important;
+    font-family: 'Titillium Web', sans-serif !important;
 }
 
 .hider {
@@ -27,7 +27,8 @@ body {
     margin: 10px 0;
     font-weight: 4;
     font-size: 2.3rem;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: 'Titillium Web'
+    /*font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";*/
 }
 
 #weekday {
@@ -106,15 +107,15 @@ input[type='checkbox'] {
 
 @media (max-width: 720px) {
     .btn {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
     thead {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
     tbody {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     .footer-copyright {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 }
