@@ -180,7 +180,7 @@ app.get("/api", cors(), parseQuery, (req, res) => {
 
 /* Set up server */
 app.all('*', ensureSecure);
-app.use(express.static('/var/opt/preventingredient31/frontend'));
+app.use(express.static('/var/opt/preventIngredient31/frontend'));
 app.use(helmet());
 function ensureSecure (req, res, next) {
 	        if (req.secure) {
