@@ -84,10 +84,7 @@ function showMenu(menu, day) {
             "<td>" + dish.Pricing + "</td>" +
             "<td>";
         tags.forEach((tag) => {
-            if (tag === "B") {
-                tag = "stern";
-            }
-            newElement += "<img class=\"tagImg\" src=\"https://www.seezeit.com/fileadmin/template/images/icons/speiseplan/" + tag + ".png\" />  "
+            newElement += "<img class=\"tagImg\" src=\"./img/" + tag + ".png\" />  "
         })
         newElement += "</td></tr>";
         let el = parser.parseFromString(newElement, "text/xml");
