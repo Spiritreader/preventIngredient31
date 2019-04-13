@@ -14,7 +14,7 @@ function init() {
         globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
     }
     document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + (globalSelectedDate.getMonth() + 1) + "." + globalSelectedDate.getFullYear()
-    $.get("https://v22019017598480774.supersrv.de/api", function (response) {
+    $.get("/api", function (response) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
