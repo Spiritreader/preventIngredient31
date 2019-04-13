@@ -13,7 +13,7 @@ function init() {
     if (isWeekend) {
         globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
     }
-    document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + (globalSelectedDate.getMonth() + 1) + "." + globalSelectedDate.getFullYear()
+    document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + (globalSelectedDate.getMonth() + 1);
     $.get("/api", function (response) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
@@ -30,7 +30,7 @@ function init() {
             "locale": {
                 "firstDayOfWeek": 1 // start week on Monday
             },
-            dateFormat: "d.m.Y",
+            dateFormat: "d.m",
             onChange: dateChanger
         });
         $.ajax({
