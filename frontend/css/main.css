@@ -98,3 +98,15 @@ input[type='checkbox'] {
         font-size: 12px;
     }
 }
+
+@media (max-width: 400px) {
+    .btn {
+        font-size: 13px;
+    }
+    thead {
+        font-size: 12px;
+    }
+    tbody {
+        font-size: 11px;
+    }
+}
