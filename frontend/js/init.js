@@ -76,8 +76,6 @@ function init(mensaSelection) {
             let tableMenu = document.getElementById("tableMenu");
             tableMenu.classList.remove("hide");
         }
-
-
     });
 
 }
