@@ -1,12 +1,7 @@
-const cors = require('cors');
 const jsdom = require('jsdom');
-const express = require('express');
-const helmet = require('helmet');
 const { JSDOM } = jsdom;
 const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
 const defaultMensa = 'mensa-giessberg';
-const app = express();
-const PORT = 1337;
 
 /**
  * Retrieves all menus for each day available as well as all dishes for each menu
@@ -118,7 +113,7 @@ function filterMenu(menus, excludeSup, excludeTags) {
     return menus;
 }
 
-app.get("/api", cors(), parseQuery, (req, res) => {
+function handleApiGet(req, res) {
     if (req.query.excludeTags.length != 0 || req.query.excludeSup.length != 0) {
         console.log("GET received from " + req.ip + " with Query: " + req.query.excludeSup + " " + req.query.excludeTags);
     } else {
@@ -129,19 +124,12 @@ app.get("/api", cors(), parseQuery, (req, res) => {
         let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.excludeTags);
         res.json(menusFiltered).status(200);
     });
-})
-
-app.use(express.static('frontend'));
-app.use(helmet());
-
-app.listen(PORT, () => {
-    console.log('We need less 31! Listening on port: ' + PORT);
-})
+}
 
 function parseQuery(req, res, next) {
     if (!req.query.mensa) {
         req.query.mensa = defaultMensa + "/";
-    }    
+    }
     const supplements = [];
     if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.excludeTags)) {
         res.send("400: Bad request boi. Do not send multiple queries of the same name!").status(400);
@@ -168,3 +156,6 @@ function parseQuery(req, res, next) {
     req.query.excludeTags = tags;
     next();
 }
+
+module.exports.parseQuery = parseQuery;
+module.exports.handleApiGet = handleApiGet;
