@@ -67,7 +67,8 @@ function init(mensaSelection) {
                 }
             })
         } else {
-            showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+            let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+            showMenu(filterMenu(menuToBeFiltered, excludeSup, excludeTags), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
             let hiderMenu = document.getElementById("hiderMenu");
             hiderMenu.classList.remove("hiderMenu");
             let spinnyBoi = document.getElementById("spinny-boi-menu");
