@@ -13,6 +13,7 @@ function init() {
     if (isWeekend) {
         globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
     }
+    updateHeaderDay();
     document.getElementById("calendar-dateboi").value = globalSelectedDate.getDate() + "." + (globalSelectedDate.getMonth() + 1);
     $.get("/api", function (response) {
         menuAll = response;
@@ -52,6 +53,12 @@ function init() {
 
     });
 
+}
+
+function updateHeaderDay() {
+    let day = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"][globalSelectedDate.getDay()]
+    //let day = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"][globalSelectedDate.getDay()]
+    document.getElementById('weekday').innerText = day;
 }
 
 function dateChanger(selectedDates) {

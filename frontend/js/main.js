@@ -73,21 +73,21 @@ function showMenu(menu, day) {
             dishItemList[i] = name + " " + supplements + " <br/>";
         }
         let tags = dish.Tags;
-        let newElement = "<tr>" +
-            "<th scope=\"row\">" + dish.Category + "</th>" +
-            "<td>" + dishItemList.join("") + "</td>" +
+        let newElement = "<tr><th colspan=\"3\" class=\"categoryHeader\">" + dish.Category + "</th></tr>" +
+            "<tr><td>" + dishItemList.join("") + "</td>" +
             "<td>" + dish.Pricing + "</td>" +
             "<td>";
         tags.forEach((tag) => {
             if (tag === "B") {
                 tag = "stern";
             }
-            newElement += "<img class=\"tagImg\" src=\"https://www.seezeit.com/fileadmin/template/images/icons/speiseplan/" + tag + ".png\" />"
+            newElement += "<img class=\"tagImg\" src=\"https://www.seezeit.com/fileadmin/template/images/icons/speiseplan/" + tag + ".png\" />  "
         })
         newElement += "</td></tr>";
         let el = parser.parseFromString(newElement, "text/xml");
         tableBody.insertAdjacentHTML("beforeend", newElement);
     })
+    updateHeaderDay();
     $(function () {
         $('[data-toggle="tooltip"]').tooltip({
             boundary: 'window'

@@ -11,11 +11,12 @@
         
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css">-->
         
-    <link rel="stylesheet" href="css/main.css">
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="js/init.js"></script>
 </head>
@@ -24,7 +25,7 @@
     <!--<div class="hider"><i class="fas fa-circle-notch fa-spin fa-3x fa-fw margin-bottom spinny-boi"></i></div>-->
     <div class="hider"><i class="fas fa-spin fa-2x fa-spin spinny-boi">Getting menu...</i></div>
     <div class="container">
-        <h1 id="uglyTitle">MenSauni</h1>
+        <h1 id="uglyTitle">MenSauni <span id="weekday"></span></h1>
         <div class="input-group mb-3 datePickerFilterDiv">
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#supplements"
                 aria-expanded="false" aria-controls="collapseExample">
@@ -80,7 +81,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header h-25" id="headingTags" data-toggle="collapse" data-target="#collapseTags">
-                                Tags
+                                Kategorie
                             </div>
                             <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordion">
                                 <div class="card-body">
@@ -96,10 +97,9 @@
         <table class="table table-black">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Kategorie</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Menu</th>
                     <th scope="col">Preis</th>
-                    <th scope="col" colsp>Tag</th>
+                    <th scope="col">Kategorie</th>
                 </tr>
             </thead>
             <tbody id="dishes">
