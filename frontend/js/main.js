@@ -83,7 +83,6 @@ function showMenu(menu, day) {
             }
         }
         let tags = dish.Tags;
-        console.log(dishItemList.join(""));
         let newElement = "<tr><th colspan=\"3\" class=\"categoryHeader\">" + dish.Category + "</th></tr>" +
             "<tr><td>" + dishItemList.join("") + "</td>" +
             "<td>" + dish.Pricing + "</td>" +

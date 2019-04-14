@@ -36,22 +36,56 @@ function init(mensaSelection) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
-        if (!yolo) {
-            menuDatePickr = flatpickr("#calendar-dateboi", {
-                minDate: menuFirstDay,
-                maxDate: menuLastDay,
-                "disable": [
-                    function (date) {
-                        // return true to disable
-                        return (date.getDay() === 6 || date.getDay() === 0);
+        //reset global date to the last available, prevents date from jumping to next month when switching
+        if (globalSelectedDate > menuLastDay) {
+            globalSelectedDate = menuLastDay;
+        }
+
+        //check if a menu is offered on saturday
+        let firstSaturdayIndex = -1;
+        let firstSaturday;
+        let secondSaturday;
+        for (let i = 0; i < menuAll.length; i++) {
+            let date = new Date(menuAll[i].date);
+                if (date.getDay() === 6) {
+                    firstSaturday = new Date(menuAll[i].date);
+                    break;
+                }
+        }
+        if (firstSaturdayIndex != -1) {
+            for (let i = firstSaturdayIndex + 1; i < menuAll.length; i++) {
+                let date = new Date(menuAll[i].date);
+
+                if (date.getDay() === 6) {
+                    secondSaturday = new Date(menuAll[i].date);
+                    break;
+                }
+            }
+        }
+
+        menuDatePickr = flatpickr("#calendar-dateboi", {
+            minDate: menuFirstDay,
+            maxDate: menuLastDay,
+            "disable": [
+                function (date) {
+                    // return true to disable
+                    if (firstSaturday && (date.toDateString() === firstSaturday.toDateString())) {
+                        return false;
+                    } else if (secondSaturday && (date.toDateString() === secondSaturday.toDateString())) {
+                        return false;
                     }
-                ],
-                "locale": {
-                    "firstDayOfWeek": 1 // start week on Monday
-                },
-                dateFormat: "d.m",
-                onChange: dateChanger
-            });
+                    return (date.getDay() === 6 || date.getDay() === 0);
+                }
+            ],
+            "locale": {
+                "firstDayOfWeek": 1 // start week on Monday
+            },
+            dateFormat: "d.m",
+            onChange: dateChanger
+        });
+        menuDatePickr.setDate(globalSelectedDate);
+        debugger;
+        if (!yolo) {            
             $.ajax({
                 dataType: "json",
                 url: "./supplements.json"
@@ -72,12 +106,7 @@ function init(mensaSelection) {
                 }
             })
         } else {
-            console.log(menuAll);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            console.log("Menuparse:")
-            console.log(JSON.parse(JSON.stringify(menuAll)));
-            console.log("result:");
-            console.log(menuToBeFiltered);
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
             let hiderMenu = document.getElementById("hiderMenu");
             hiderMenu.classList.remove("hiderMenu");
@@ -99,8 +128,13 @@ function updateHeaderDay() {
 function dateChanger(selectedDates) {
     let selectedDate = selectedDates[0];
     if (selectedDate) {
+        if (selectedDate >= menuLastDay) {
+            selectedDate = menuLastDay;
+        }
         globalSelectedDate = selectedDate;
-        showMenu(menuAll, selectedDate);
+        let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), 
+                new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
     }
 }
 
