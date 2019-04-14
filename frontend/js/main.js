@@ -52,6 +52,8 @@ function showMenu(menu, day) {
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
             let name = dishItemList[i].replace(dishListRegexMatch, "").trim();
+            //todo: use name for replacing supplements directly
+            
             /*let name = dishItemList[i];
             if (dishListRegexMatch) {
                 dishListRegexMatch.forEach((rex) => {
@@ -151,6 +153,7 @@ function getSupplements(string) {
 }
 
 function previous() {
+    //todo: check if menu is first in list
     let currentMenu = matchMenuDay(menuAll, globalSelectedDate);
     if (currentMenu != -1) {
         if (menuAll[currentMenu - 1]) {
@@ -170,6 +173,7 @@ function previous() {
 }
 
 function next() {
+    //todo: check if menu is last in list
     let currentMenu = matchMenuDay(menuAll, globalSelectedDate);
     if (currentMenu != -1) {
         if (menuAll[currentMenu + 1]) {

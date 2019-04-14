@@ -22,6 +22,7 @@ function init(mensaSelection) {
         globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
     }
     updateHeaderDay();
+    //todo: fix menu when saturday is available
     let month = globalSelectedDate.getMonth() + 1;
     if (month < 10) {
         month = "0" + month;
