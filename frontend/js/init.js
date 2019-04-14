@@ -83,7 +83,6 @@ function init(mensaSelection) {
             onChange: dateChanger
         });
         menuDatePickr.setDate(globalSelectedDate);
-        debugger;v
         if (!yolo) {            
             $.ajax({
                 dataType: "json",
