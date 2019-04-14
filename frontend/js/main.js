@@ -51,34 +51,35 @@ function showMenu(menu, day) {
         let dishItemList = dish.Name.split("|");
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
-            let name = dishItemList[i].replace(dishListRegexMatch, "").trim();
-            //todo: use name for replacing supplements directly
             
-            /*let name = dishItemList[i];
+            let name = dishItemList[i];
             if (dishListRegexMatch) {
                 dishListRegexMatch.forEach((rex) => {
-                    name = name.replace(rex, "").trim();
-                })
-            }*/
-            let supplements = dishListRegexMatch ? dishListRegexMatch.toString() : "";
-            if (supplements !== "") {
-                supplements = supplements.replace(/\(|\)/g, "");
-                let splittedSups = supplements.split(",");
-                for (let j = 0; j < splittedSups.length; j++) {
-                    let allergen = supplementTranslation.Allergene[splittedSups[j]];
-                    let additive = supplementTranslation.Zusatzstoffe[splittedSups[j]];
-                    let tag = supplementTranslation.Kategorien[splittedSups[j]];
-                    if (allergen) {
-                        splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + allergen + "\" data-placement=\"top\" class=\"badge badge-green " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
-                    } else if (additive) {
-                        splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + additive + "\" data-placement=\"top\" class=\"badge badge-red " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                    let supplements = rex ? rex.toString() : "";
+                    if (supplements !== "") {
+                        supplements = supplements.replace(/\(|\)/g, "");
+                        let splittedSups = supplements.split(",");
+                        for (let j = 0; j < splittedSups.length; j++) {
+                            let allergen = supplementTranslation.Allergene[splittedSups[j]];
+                            let additive = supplementTranslation.Zusatzstoffe[splittedSups[j]];
+                            let tag = supplementTranslation.Kategorien[splittedSups[j]];
+                            if (allergen) {
+                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + allergen + "\" data-placement=\"top\" class=\"badge badge-green " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                            } else if (additive) {
+                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + additive + "\" data-placement=\"top\" class=\"badge badge-red " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                            } else {
+                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"nicht angegeben\" data-placement=\"top\" class=\"badge badge-light " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                            }
+                        }
+                        supplements = splittedSups.join(" ");
+                        // console.log(splittedSups);
                     }
-                }
-                supplements = splittedSups.join(" ");
-                // console.log(splittedSups);
+                    name = name.replace(rex, supplements).trim();
+                })
             }
-
-            dishItemList[i] = name + " " + supplements + " <br/>";
+            if (name.length != 0) {
+                dishItemList[i] = name + " <br/>";
+            }
         }
         let tags = dish.Tags;
         let newElement = "<tr><th colspan=\"3\" class=\"categoryHeader\">" + dish.Category + "</th></tr>" +
