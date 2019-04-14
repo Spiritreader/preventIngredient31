@@ -108,6 +108,11 @@ input[type='checkbox'] {
     color: black;
 }
 
+.badge-darkgrey {
+    background-color: #E0E0E0;
+    color: black;
+}
+
 .badge-green {
     background-color: #9CCC65;
     color: black;

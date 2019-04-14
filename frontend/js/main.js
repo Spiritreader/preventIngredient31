@@ -51,7 +51,7 @@ function showMenu(menu, day) {
         let dishItemList = dish.Name.split("|");
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
-            
+
             let name = dishItemList[i];
             if (dishListRegexMatch) {
                 dishListRegexMatch.forEach((rex) => {
@@ -68,20 +68,22 @@ function showMenu(menu, day) {
                             } else if (additive) {
                                 splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + additive + "\" data-placement=\"top\" class=\"badge badge-red " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             } else {
-                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"nicht angegeben\" data-placement=\"top\" class=\"badge badge-light " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"nicht angegeben\" data-placement=\"top\" class=\"badge badge-darkgrey " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             }
                         }
                         supplements = splittedSups.join(" ");
                         // console.log(splittedSups);
                     }
-                    name = name.replace(rex, supplements).trim();
-                })
+                    name = name.trim().replace(rex, supplements);
+                });
             }
-            if (name.length != 0) {
-                dishItemList[i] = name + " <br/>";
+
+            if (name.trim().length != 0) {
+                dishItemList[i] = name.trim() + "<br>";
             }
         }
         let tags = dish.Tags;
+        console.log(dishItemList.join(""));
         let newElement = "<tr><th colspan=\"3\" class=\"categoryHeader\">" + dish.Category + "</th></tr>" +
             "<tr><td>" + dishItemList.join("") + "</td>" +
             "<td>" + dish.Pricing + "</td>" +
