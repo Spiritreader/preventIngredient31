@@ -62,7 +62,6 @@ function showMenu(menu, day) {
                         for (let j = 0; j < splittedSups.length; j++) {
                             let allergen = supplementTranslation.Allergene[splittedSups[j]];
                             let additive = supplementTranslation.Zusatzstoffe[splittedSups[j]];
-                            let tag = supplementTranslation.Kategorien[splittedSups[j]];
                             if (allergen) {
                                 splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + allergen + "\" data-placement=\"top\" class=\"badge badge-green " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             } else if (additive) {
@@ -88,7 +87,7 @@ function showMenu(menu, day) {
             "<td>" + dish.Pricing + "</td>" +
             "<td>";
         tags.forEach((tag) => {
-            newElement += "<img class=\"tagImg\" src=\"./img/" + tag + ".png\" />  "
+            newElement += "<span data-toggle=\"tooltip\" title=\"" + supplementTranslation.Kategorien[tag] + "\" data-placement=\"top\"><img class=\"tagImg\" src=\"./img/" + tag + ".png\" /></span>";
         })
         newElement += "</td></tr>";
         let el = parser.parseFromString(newElement, "text/xml");
