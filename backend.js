@@ -129,15 +129,14 @@ function handleApiGet(req, res) {
     let key = '__express__' + req.query.mensa;
     let cachedBody = mcache.get(key);
     if (cachedBody) {
-        console.log("Returning cached result with cache: " + mcache.keys());
-        res.send(cachedBody);
-        return;
+        console.log("Returning cached result for " + req.query.mensa + " with cache: " + mcache.keys());
+        res.json(filterMenu(JSON.parse(JSON.stringify(cachedBody)), req.query.excludeSup, req.query.includeTags)).status(200);
     } else {
-        console.log("Returning non-cached result.");
+        console.log("Returning non-cached result for " + req.query.mensa);
         JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
             let menus = getAllMenus(dom.window.document);
-            let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.includeTags);
-            mcache.put(key, menusFiltered, cacheDuration * 1000);
+            let menusFiltered = filterMenu(JSON.parse(JSON.stringify(menus)), req.query.excludeSup, req.query.includeTags);
+            mcache.put(key, menus, cacheDuration * 1000);
             res.json(menusFiltered).status(200);
         });
     }
