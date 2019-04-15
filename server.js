@@ -39,7 +39,6 @@ httpServer.listen(80, () => {
 		console.log("We need less 31! HTTPS Server listening on port 443");
 		process.setgid('node_server');
 		process.setuid('node_server');
-		console.log("Dropped root, switched to user node_server");
+		console.log("Setup complete, dropped root, switched to user node_server");
 	});
-
 });
