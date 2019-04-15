@@ -122,7 +122,7 @@ function filterMenu(menus, excludeSup, includeTags) {
 
 function handleApiGet(req, res) {
     if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
-        console.log("GET received from " + req.ip + " with Query: " + req.query.excludeSup + " " + req.query.includeTags);
+        console.log("GET received from " + req.ip + " with Query: " + "exclude sups: " + req.query.excludeSup + " include tags: " + req.query.includeTags);
     } else {
         console.log("GET received from " + req.ip);
     }
