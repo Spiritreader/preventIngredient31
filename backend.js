@@ -1,7 +1,10 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const mcache = require('memory-cache');
 const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
 const defaultMensa = 'mensa-giessberg';
+//cache duration in seconds
+const cacheDuration = 3600;
 
 /**
  * Retrieves all menus for each day available as well as all dishes for each menu
@@ -123,16 +126,26 @@ function handleApiGet(req, res) {
     } else {
         console.log("GET received from " + req.ip);
     }
-    JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
-        let menus = getAllMenus(dom.window.document);
-        let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.includeTags);
-        res.json(menusFiltered).status(200);
-    });
+    let key = '__express__' + req.query.mensa;
+    let cachedBody = mcache.get(key);
+    if (cachedBody) {
+        console.log("Returning cached result with cache: " + mcache.keys());
+        res.send(cachedBody);
+        return;
+    } else {
+        console.log("Returning non-cached result.");
+        JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
+            let menus = getAllMenus(dom.window.document);
+            let menusFiltered = filterMenu(menus, req.query.excludeSup, req.query.includeTags);
+            mcache.put(key, menusFiltered, cacheDuration * 1000);
+            res.json(menusFiltered).status(200);
+        });
+    }
 }
 
 function parseQuery(req, res, next) {
     if (!req.query.mensa) {
-        req.query.mensa = defaultMensa + "/";
+        req.query.mensa = defaultMensa;
     }
     const supplements = [];
     if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.includeTags)) {
