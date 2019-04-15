@@ -4,7 +4,7 @@ const mcache = require('memory-cache');
 const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
 const defaultMensa = 'mensa-giessberg';
 //cache duration in seconds
-const cacheDuration = 3600;
+const cacheDuration = (3600 * 12);
 
 /**
  * Retrieves all menus for each day available as well as all dishes for each menu
