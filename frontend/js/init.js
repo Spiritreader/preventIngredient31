@@ -82,7 +82,6 @@ function init(mensaSelection) {
             dateFormat: "d.m",
             onChange: dateChanger
         });
-        menuDatePickr.setDate(globalSelectedDate);
         if (!yolo) {            
             $.ajax({
                 dataType: "json",
@@ -104,6 +103,7 @@ function init(mensaSelection) {
                 }
             })
         } else {
+            menuDatePickr.setDate(globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
             let hiderMenu = document.getElementById("hiderMenu");
