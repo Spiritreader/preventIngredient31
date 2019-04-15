@@ -94,6 +94,7 @@ function showMenu(menu, day) {
         let el = parser.parseFromString(newElement, "text/xml");
         tableBody.insertAdjacentHTML("beforeend", newElement);
     })
+    checkDateArrow();
     updateHeaderDay();
     $(function () {
         $('[data-toggle="tooltip"]').tooltip({
@@ -166,12 +167,7 @@ function previous() {
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
     }
-    if (globalSelectedDate.toDateString() === menuFirstDay.toDateString()) {
-        document.getElementById("button-previous").classList.add("disabled");
-    }
-    if (globalSelectedDate.toDateString() !== menuLastDay.toDateString()) {
-        document.getElementById("button-next").classList.remove("disabled");
-    }
+    checkDateArrow();
 }
 
 function next() {
@@ -186,10 +182,18 @@ function next() {
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
     }
+    checkDateArrow();
+}
+
+function checkDateArrow() {
     if (globalSelectedDate.toDateString() === menuLastDay.toDateString()) {
         document.getElementById("button-next").classList.add("disabled");
+    } else {
+        document.getElementById("button-next").classList.remove("disabled");
     }
-    if (globalSelectedDate.toDateString() !== menuFirstDay.toDateString()) {
+    if (globalSelectedDate.toDateString() === menuFirstDay.toDateString()) {
+        document.getElementById("button-previous").classList.add("disabled");
+    } else {
         document.getElementById("button-previous").classList.remove("disabled");
     }
 }
