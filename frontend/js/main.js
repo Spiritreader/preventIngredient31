@@ -1,9 +1,10 @@
 let excludeSup = [];
 let includeTags = [];
 
+/**
+ * Load new menu if a checkbox is checked/unchecked
+ */
 function onChangeCheckbox() {
-    let url = "/api";
-    let data;
     $("input[type='checkbox']").on("change", function () {
         if (this.checked) {
             if (this.className.split(" ").includes("sups-checkbox")) {
@@ -30,10 +31,15 @@ function onChangeCheckbox() {
     })
 }
 
+/**
+ * Display the menu given the menu and date
+ * @param {*} menu array with menus as objects
+ * @param {*} day Date to be displayed
+ */
 function showMenu(menu, day) {
     let tableBody = document.getElementById("dishes");
     document.getElementById("dishes").innerHTML = "";
-    //let dishes = menu[day].dishes;
+    // Check if the desired menu is found in the array
     let menuToFind = menu.find((toFind) => {
         toFind = new Date(toFind.date);
         toFind.setHours(0, 0, 0);
@@ -47,11 +53,12 @@ function showMenu(menu, day) {
         return;
     }
     let parser = new DOMParser()
+    // Add dishes to the page
     menuToFind.dishes.forEach((dish) => {
         let dishItemList = dish.Name.split("|");
+        // Display tooltip on hover over allergen and supplement numbers
         for (let i = 0; i < dishItemList.length; i++) {
             let dishListRegexMatch = dishItemList[i].match(/\(\d([a-zA-Z]|\d|,)*\)/g);
-
             let name = dishItemList[i];
             if (dishListRegexMatch) {
                 dishListRegexMatch.forEach((rex) => {
@@ -71,7 +78,6 @@ function showMenu(menu, day) {
                             }
                         }
                         supplements = splittedSups.join(" ");
-                        // console.log(splittedSups);
                     }
                     name = name.trim().replace(rex, supplements);
                 });
@@ -154,14 +160,15 @@ function getSupplements(string) {
     return supplements.sort();
 }
 
+/**
+ * Display the menu of the previous day
+ */
 function previous() {
-    //todo: check if menu is first in list
     let currentMenu = matchMenuDay(menuAll, globalSelectedDate);
     if (currentMenu != -1) {
         if (menuAll[currentMenu - 1]) {
             globalSelectedDate = new Date(menuAll[currentMenu - 1].date);
             menuDatePickr.setDate(globalSelectedDate);
-            //showMenu(menuAll, globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
@@ -169,14 +176,15 @@ function previous() {
     checkDateArrow();
 }
 
+/**
+ * Display the menu of the next day
+ */
 function next() {
-    //todo: check if menu is last in list
     let currentMenu = matchMenuDay(menuAll, globalSelectedDate);
     if (currentMenu != -1) {
         if (menuAll[currentMenu + 1]) {
             globalSelectedDate = new Date(menuAll[currentMenu + 1].date);
             menuDatePickr.setDate(globalSelectedDate);
-            //showMenu(menuAll, globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
         }
@@ -184,6 +192,9 @@ function next() {
     checkDateArrow();
 }
 
+/**
+ * Disable/enable the arrow buttons
+ */
 function checkDateArrow() {
     if (globalSelectedDate.toDateString() === menuLastDay.toDateString()) {
         document.getElementById("button-next").classList.add("disabled");

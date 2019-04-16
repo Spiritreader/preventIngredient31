@@ -1,6 +1,6 @@
 let rowCounter = 0;
 let rowElement;
-let yolo = false;
+let yolo = false; // You Only Load Once
 let menuAll;
 let menuDatePickr;
 let globalSelectedDate = new Date();
@@ -9,7 +9,26 @@ let menuFirstDay;
 let menuLastDay;
 
 function init(mensaSelection) {
-    if (mensaSelection) {
+    localStorage.lastSelectedUni = mensaSelection;
+    switch (mensaSelection) {
+        case "mensa-giessberg": 
+            document.getElementById('selectedUniversity').innerText = 'Uni KN';
+            break;
+        case "mensa-htwg": 
+            document.getElementById('selectedUniversity').innerText = 'HTWG KN';
+            break;
+        case "mensa-weingarten": 
+            document.getElementById('selectedUniversity').innerText = 'HS RV';
+            break;
+        case "mensa-ravensburg": 
+            document.getElementById('selectedUniversity').innerText = 'DHBW RV';
+            break;
+        case "mensa-friedrichshafen": 
+            document.getElementById('selectedUniversity').innerText = 'DHBW FN';
+            break;
+    }
+    // Hide menu on uni change if the initial page load occurred
+    if (yolo) {
         let hiderMenu = document.getElementById("hiderMenu");
         hiderMenu.classList.add("hiderMenu");
         let spinnyBoi = document.getElementById("spinny-boi-menu");
@@ -35,12 +54,12 @@ function init(mensaSelection) {
         menuAll = response;
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
-        //reset global date to the last available, prevents date from jumping to next month when switching
+        // Reset global date to the last available, prevents date from jumping to next month when switching
         if (globalSelectedDate > menuLastDay) {
             globalSelectedDate = menuLastDay;
         }
 
-        //check if a menu is offered on saturday
+        // Check if a menu is offered on Saturday
         let firstSaturdayIndex = -1;
         let firstSaturday;
         let secondSaturday;
@@ -90,10 +109,10 @@ function init(mensaSelection) {
                 if (!yolo) {
                     // Show everything ;)
                     let hider = document.getElementsByClassName("hider")[0];
-                    hider.parentNode.removeChild(hider);
                     let hiderMenu = document.getElementById("hiderMenu");
-                    hiderMenu.classList.remove("hiderMenu");
                     let spinnyBoi = document.getElementById("spinny-boi-menu");
+                    hider.parentNode.removeChild(hider);
+                    hiderMenu.classList.remove("hiderMenu");
                     spinnyBoi.classList.add("hide");
                     supplementTranslation = data;
                     processCheckboxes(data);
@@ -107,10 +126,10 @@ function init(mensaSelection) {
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
             showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
             let hiderMenu = document.getElementById("hiderMenu");
-            hiderMenu.classList.remove("hiderMenu");
             let spinnyBoi = document.getElementById("spinny-boi-menu");
-            spinnyBoi.classList.add("hide");
             let tableMenu = document.getElementById("tableMenu");
+            hiderMenu.classList.remove("hiderMenu");
+            spinnyBoi.classList.add("hide");
             tableMenu.classList.remove("hide");
         }
     });
@@ -123,6 +142,10 @@ function updateHeaderDay() {
     document.getElementById('weekday').innerText = day;
 }
 
+/**
+ * Change the date
+ * @param {*} selectedDates Array of dates that were selected (in this case ar.length == 1) 
+ */
 function dateChanger(selectedDates) {
     let selectedDate = selectedDates[0];
     if (selectedDate) {
@@ -145,6 +168,10 @@ function tdiff(dt1, dt2) {
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
 }
 
+/**
+ * Add filter-checkboxes to the page
+ * @param {*} supplements json of supplements, allergens and tags 
+ */
 function processCheckboxes(supplements) {
     let allergenKeys = Object.keys(supplements.Allergene).sort();
     let additivesKeys = Object.keys(supplements.Zusatzstoffe);

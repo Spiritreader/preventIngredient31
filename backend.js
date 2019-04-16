@@ -124,7 +124,7 @@ function handleApiGet(req, res) {
     if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
         console.log("GET received from " + req.ip + " with query " + "exclude_sups=(" + req.query.excludeSup + ") include_tags=(" + req.query.includeTags + ")");
     } else {
-        console.log("GET received from " + req.ip);
+        console.log("GET received from " + req.ip + ", user-agent: " + req.get('User-Agent'));
     }
     let key = '__express__' + req.query.mensa;
     let cachedBody = mcache.get(key);

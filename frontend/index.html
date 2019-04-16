@@ -102,15 +102,15 @@
                     <th id="chooseMensa" class="dropdown dropdown-toggle" scope="col" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Menu <span id="selectedUniversity">Uni KN</span>
                         <div class="dropdown-menu" aria-labelledby="chooseMensa">
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-giessberg'); document.getElementById('selectedUniversity').innerText = 'Uni KN';">Uni
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-giessberg');">Uni
                                 Konstanz</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-htwg'); document.getElementById('selectedUniversity').innerText = 'HTWG KN';">HWTG
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-htwg');">HWTG
                                 Konstanz</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-weingarten'); document.getElementById('selectedUniversity').innerText = 'HS RV';">Hochschule
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-weingarten');">Hochschule
                                 Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-ravensburg'); document.getElementById('selectedUniversity').innerText = 'DHBW RV';">DHBW
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-ravensburg');">DHBW
                                 Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-friedrichshafen'); document.getElementById('selectedUniversity').innerText = 'DHBW FN';">DHBW
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('mensa-friedrichshafen');">DHBW
                                 Friedrichshafen</a>
                         </div>
                     </th>
@@ -145,7 +145,12 @@
         crossorigin="anonymous"></script>
 
     <!-- Page init -->
-    <script>init()</script>
+    <script>
+    if (localStorage.lastSelectedUni === "undefined") {
+        init();
+    } else {
+        init(localStorage.lastSelectedUni)
+    }</script>
 </body>
 
 </html>
