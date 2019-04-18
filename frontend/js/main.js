@@ -27,8 +27,17 @@ function onChangeCheckbox() {
             }
         }
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+        let filterBoi = document.getElementById("filter-pillboi");
+        filterBoi.innerHTML = "";
+        excludeSup.forEach((sup) => {
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a>";
+        })
         showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
+}
+
+function checkCheckboxes() {
+    
 }
 
 /**
@@ -217,4 +226,16 @@ function matchMenuDay(menu, day) {
         }
     }
     return -1;
+}
+
+function filterBoiRemove(sup) {
+    let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+    let index = excludeSup.indexOf(sup);
+    document.getElementById(sup).checked = false;
+    if (index > -1) {
+        let ele = document.getElementsByClassName(sup)[0];
+        excludeSup.splice(index, 1);
+        ele.parentNode.removeChild(ele);
+        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
+    }
 }
