@@ -45,6 +45,10 @@ body {
     /*font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";*/
 }
 
+#filter-pillboi {
+    margin: 0.5rem 0;
+}
+
 #weekday {
     font-size: 1.5rem;
     color: rgb(114, 116, 119);

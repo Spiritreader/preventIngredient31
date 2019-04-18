@@ -30,7 +30,10 @@ function onChangeCheckbox() {
         let filterBoi = document.getElementById("filter-pillboi");
         filterBoi.innerHTML = "";
         excludeSup.forEach((sup) => {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a>";
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a> ";
+        })
+        includeTags.forEach((tag) => {
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + tag + " <i class=\"fas fa-times\"></i></a> ";
         })
         showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
@@ -228,14 +231,17 @@ function matchMenuDay(menu, day) {
     return -1;
 }
 
-function filterBoiRemove(sup) {
+function filterBoiRemove(filter) {
     let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-    let index = excludeSup.indexOf(sup);
-    document.getElementById(sup).checked = false;
+    let index = excludeSup.indexOf(filter);
+    let ele = document.getElementsByClassName(filter)[0];
+    document.getElementById(filter).checked = false;
     if (index > -1) {
-        let ele = document.getElementsByClassName(sup)[0];
         excludeSup.splice(index, 1);
-        ele.parentNode.removeChild(ele);
-        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
+    } else {
+        index = includeTags.indexOf(filter);
+        includeTags.splice(index, 1);
     }
+    ele.parentNode.removeChild(ele);
+    showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
 }
