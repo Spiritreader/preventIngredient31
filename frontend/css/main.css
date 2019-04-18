@@ -107,6 +107,22 @@ input[type='checkbox'] {
     margin-left: 1.25rem;
 }
 
+.datePickerFilterDiv {
+    margin-bottom: 5px;
+}
+
+.sups-cardboi {
+    background-color: rgb(255, 238, 238);
+}
+
+.allergens-cardboi {
+    background-color: rgb(214, 238, 212);
+}
+
+.badge-reset {
+    background-color: #ebebeb;
+}
+
 .badge-red {
     background-color: #E57373;
     color: black;
@@ -133,10 +149,6 @@ input[type='checkbox'] {
 
 #chooseMensa {
     cursor: pointer;
-}
-
-#accordion {
-    margin-bottom: 12px;
 }
 
 @media (max-width: 720px) {

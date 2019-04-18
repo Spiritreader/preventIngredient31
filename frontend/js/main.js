@@ -35,6 +35,9 @@ function onChangeCheckbox() {
         includeTags.forEach((tag) => {
             filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementTranslation.Kategorien[tag] + " <i class=\"fas fa-times\"></i></a> ";
         })
+        if (filterBoi.innerHTML != "") {
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"removeAllFilter()\" class=\"badge badge-pill badge-reset\">Reset Filter <i class=\"fas fa-times\"></i></a> ";
+        }
         showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
 }
@@ -227,6 +230,10 @@ function matchMenuDay(menu, day) {
     return -1;
 }
 
+/**
+ * Removes the given filter pill
+ * @param {*} filter String of the filter pill to remove
+ */
 function filterBoiRemove(filter) {
     let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
     let index = excludeSup.indexOf(filter);
@@ -239,5 +246,23 @@ function filterBoiRemove(filter) {
         includeTags.splice(index, 1);
     }
     ele.parentNode.removeChild(ele);
+    showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
+    if (excludeSup.length === 0 && includeTags.length === 0) {
+        document.getElementById("filter-pillboi").innerHTML = "";
+    }
+}
+
+/**
+ * Removes all filters
+ */
+function removeAllFilter() {
+    let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+    let checkboxes = document.getElementsByClassName("form-check-input");
+    excludeSup = [];
+    includeTags = [];
+    document.getElementById("filter-pillboi").innerHTML = "";
+    for(let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = false;
+    }
     showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
 }
