@@ -33,14 +33,10 @@ function onChangeCheckbox() {
             filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a> ";
         })
         includeTags.forEach((tag) => {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + tag + " <i class=\"fas fa-times\"></i></a> ";
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementTranslation.Kategorien[tag] + " <i class=\"fas fa-times\"></i></a> ";
         })
         showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
-}
-
-function checkCheckboxes() {
-    
 }
 
 /**
