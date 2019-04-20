@@ -7,9 +7,9 @@ let includeTags = [];
 function onChangeCheckbox() {
     $("input[type='checkbox']").on("change", function () {
         if (this.checked) {
-            if (this.className.split(" ").includes("sups-checkbox")) {
+            if (this.className.split(" ").includes("sups-checkbox") && !excludeSup.includes(this.id)) {
                 excludeSup.push(this.id);
-            } else if (this.className.split(" ").includes("tags-checkbox")) {
+            } else if (this.className.split(" ").includes("tags-checkbox") && !includeTags.includes(this.id)) {
                 includeTags.push(this.id);
             }
         } else {
@@ -24,7 +24,7 @@ function onChangeCheckbox() {
                 if (index > -1) {
                     includeTags.splice(index, 1);
                 }
-            }
+            }   
         }
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
         let filterBoi = document.getElementById("filter-pillboi");
@@ -33,7 +33,7 @@ function onChangeCheckbox() {
             filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a> ";
         })
         includeTags.forEach((tag) => {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementTranslation.Kategorien[tag] + " <i class=\"fas fa-times\"></i></a> ";
+            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementTranslation.categories[tag] + " <i class=\"fas fa-times\"></i></a> ";
         })
         if (filterBoi.innerHTML != "") {
             filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"removeAllFilter()\" class=\"badge badge-pill badge-reset\">Reset Filter <i class=\"fas fa-times\"></i></a> ";
@@ -78,8 +78,8 @@ function showMenu(menu, day) {
                         supplements = supplements.replace(/\(|\)/g, "");
                         let splittedSups = supplements.split(",");
                         for (let j = 0; j < splittedSups.length; j++) {
-                            let allergen = supplementTranslation.Allergene[splittedSups[j]];
-                            let additive = supplementTranslation.Zusatzstoffe[splittedSups[j]];
+                            let allergen = supplementTranslation.allergens[splittedSups[j]];
+                            let additive = supplementTranslation.additives[splittedSups[j]];
                             if (allergen) {
                                 splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + allergen + "\" data-placement=\"top\" class=\"badge badge-green " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             } else if (additive) {
@@ -104,7 +104,7 @@ function showMenu(menu, day) {
             "<td>" + dish.Pricing + "</td>" +
             "<td>";
         tags.forEach((tag) => {
-            newElement += "<span data-toggle=\"tooltip\" title=\"" + supplementTranslation.Kategorien[tag] + "\" data-placement=\"top\"><img class=\"tagImg\" src=\"./img/" + tag + ".png\" /></span>";
+            newElement += "<span data-toggle=\"tooltip\" title=\"" + supplementTranslation.categories[tag] + "\" data-placement=\"top\"><img class=\"tagImg\" src=\"./img/" + tag + ".png\" /></span>";
         })
         newElement += "</td></tr>";
         let el = parser.parseFromString(newElement, "text/xml");
@@ -261,8 +261,34 @@ function removeAllFilter() {
     excludeSup = [];
     includeTags = [];
     document.getElementById("filter-pillboi").innerHTML = "";
-    for(let i = 0; i < checkboxes.length; i++) {
+    for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false;
     }
     showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
 }
+
+/**
+ * Change language dependent on the selected language
+ */
+function changeHtmlText(language) {
+    let text = lang[language].htmlText;
+    document.getElementById("sr-next").innerText = text.srNext;
+    document.getElementById("sr-previous").innerText = text.srPrevious;
+    document.getElementById("headingAllergens").innerText = text.headingAllergens;
+    document.getElementById("headingSupplements").innerText = text.headingSupplements;
+    document.getElementById("headingTags").innerText = text.headingTags;
+    document.getElementById("headingPrice").innerText = text.headingPrice;
+    document.getElementById("headingCategory").innerText = text.headingCategory;
+    document.querySelector("#collapseAllergens > div").innerHTML = "";
+    document.querySelector("#collapseSupplements > div").innerHTML = "";
+    document.querySelector("#collapseTags > div").innerHTML = "";
+    processCheckboxes(lang[language].supplements)
+}
+
+/**
+ * Change language on language change
+ */
+$("#langSelect").on("change", function () {
+    changeHtmlText(this.value);
+    localStorage.lang = this.value;
+});

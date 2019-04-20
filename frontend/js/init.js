@@ -9,21 +9,25 @@ let menuFirstDay;
 let menuLastDay;
 
 function init(mensaSelection) {
+    if (localStorage.lang == null) {
+        localStorage.lang = "de";
+    }
+    changeHtmlText(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
     switch (mensaSelection) {
-        case "mensa-giessberg": 
+        case "mensa-giessberg":
             document.getElementById('selectedUniversity').innerText = 'Uni KN';
             break;
-        case "mensa-htwg": 
+        case "mensa-htwg":
             document.getElementById('selectedUniversity').innerText = 'HTWG KN';
             break;
-        case "mensa-weingarten": 
+        case "mensa-weingarten":
             document.getElementById('selectedUniversity').innerText = 'HS RV';
             break;
-        case "mensa-ravensburg": 
+        case "mensa-ravensburg":
             document.getElementById('selectedUniversity').innerText = 'DHBW RV';
             break;
-        case "mensa-friedrichshafen": 
+        case "mensa-friedrichshafen":
             document.getElementById('selectedUniversity').innerText = 'DHBW FN';
             break;
     }
@@ -65,10 +69,10 @@ function init(mensaSelection) {
         let secondSaturday;
         for (let i = 0; i < menuAll.length; i++) {
             let date = new Date(menuAll[i].date);
-                if (date.getDay() === 6) {
-                    firstSaturday = new Date(menuAll[i].date);
-                    break;
-                }
+            if (date.getDay() === 6) {
+                firstSaturday = new Date(menuAll[i].date);
+                break;
+            }
         }
         if (firstSaturdayIndex != -1) {
             for (let i = firstSaturdayIndex + 1; i < menuAll.length; i++) {
@@ -101,26 +105,19 @@ function init(mensaSelection) {
             dateFormat: "d.m",
             onChange: dateChanger
         });
-        if (!yolo) {            
-            $.ajax({
-                dataType: "json",
-                url: "./supplements.json"
-            }).done(function (data) {
-                if (!yolo) {
-                    // Show everything ;)
-                    let hider = document.getElementsByClassName("hider")[0];
-                    let hiderMenu = document.getElementById("hiderMenu");
-                    let spinnyBoi = document.getElementById("spinny-boi-menu");
-                    hider.parentNode.removeChild(hider);
-                    hiderMenu.classList.remove("hiderMenu");
-                    spinnyBoi.classList.add("hide");
-                    supplementTranslation = data;
-                    processCheckboxes(data);
-                    onChangeCheckbox();
-                    yolo = true;
-                    showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
-                }
-            })
+        if (!yolo) {
+            // Show everything ;)
+            let hider = document.getElementsByClassName("hider")[0];
+            let hiderMenu = document.getElementById("hiderMenu");
+            let spinnyBoi = document.getElementById("spinny-boi-menu");
+            hider.parentNode.removeChild(hider);
+            hiderMenu.classList.remove("hiderMenu");
+            spinnyBoi.classList.add("hide");
+
+            supplementTranslation = lang[localStorage.lang].supplements;
+            processCheckboxes(lang[localStorage.lang].supplements);
+            yolo = true;
+            showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
         } else {
             menuDatePickr.setDate(globalSelectedDate);
             let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
@@ -154,8 +151,8 @@ function dateChanger(selectedDates) {
         }
         globalSelectedDate = selectedDate;
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), 
-                new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined),
+            new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
     }
 }
 
@@ -173,9 +170,9 @@ function tdiff(dt1, dt2) {
  * @param {*} supplements json of supplements, allergens and tags 
  */
 function processCheckboxes(supplements) {
-    let allergenKeys = Object.keys(supplements.Allergene).sort();
-    let additivesKeys = Object.keys(supplements.Zusatzstoffe);
-    let tagKeys = Object.keys(supplements.Kategorien).sort();
+    let allergenKeys = Object.keys(supplements.allergens).sort();
+    let additivesKeys = Object.keys(supplements.additives);
+    let tagKeys = Object.keys(supplements.categories).sort();
     let allergens = document.querySelector("#collapseAllergens > div");
     let additives = document.querySelector("#collapseSupplements > div");
     let tags = document.querySelector("#collapseTags > div");
@@ -183,14 +180,14 @@ function processCheckboxes(supplements) {
     rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row');
     allergenKeys.forEach((key) => {
-        inject(allergens, supplements.Allergene, key, 'sups');
+        inject(allergens, supplements.allergens, key, 'sups');
     });
     allergens.appendChild(rowElement);
 
     rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row')
     additivesKeys.forEach((key) => {
-        inject(additives, supplements.Zusatzstoffe, key, 'sups');
+        inject(additives, supplements.additives, key, 'sups');
     });
     additives.appendChild(rowElement);
 
@@ -198,9 +195,10 @@ function processCheckboxes(supplements) {
     rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row')
     tagKeys.forEach((key) => {
-        injectTags(tags, supplements.Kategorien, key, 'tags');
+        injectTags(tags, supplements.categories, key, 'tags');
     });
     tags.appendChild(rowElement);
+    onChangeCheckbox();
 }
 
 function inject(body, lookup, key, classInfo) {

@@ -37,12 +37,23 @@ body {
    font-family: -apple-system,BlinkMacSystemFont,"Titillium Web","Segoe UI","Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
 }
 
+.header {
+    vertical-align: text-bottom;
+}
+
 #uglyTitle {
     margin: 10px 0;
     font-weight: 4;
     font-size: 2.3rem;
-    font-family: 'Titillium Web'
+    font-family: 'Titillium Web';
+    display: inline-block;
     /*font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";*/
+}
+
+#langSelect {
+    float: right;
+    margin-bottom: 10px;
+    /* vertical-align: text-bottom; */
 }
 
 #filter-pillboi {

@@ -1,5 +1,5 @@
-{
-    supplements = {
+const langDe = {
+    "supplements": {
         "allergens": {
             "25a": "Weizen",
             "25b": "Roggen",
@@ -54,5 +54,14 @@
             "F": "Fisch",
             "B": "Bessere Tierhaltung"
         }
+    },
+    "htmlText": {
+        "srNext": "Nächste",
+        "srPrevious": "Vorherige",
+        "collapseAllergens": "Allergene (ausschließen)",
+        "collapseSupplements": "Zusatzstoffe (ausschließen)",
+        "collapseTags": "Kategorien (auswählen)",
+        "price": "Preis",
+        "category": "Kategorie"
     }
 }
