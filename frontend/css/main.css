@@ -37,10 +37,6 @@ body {
    font-family: -apple-system,BlinkMacSystemFont,"Titillium Web","Segoe UI","Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
 }
 
-.header {
-    vertical-align: text-bottom;
-}
-
 #uglyTitle {
     margin: 10px 0;
     font-weight: 4;
@@ -50,10 +46,10 @@ body {
     /*font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";*/
 }
 
-#langSelect {
-    float: right;
-    margin-bottom: 10px;
-    /* vertical-align: text-bottom; */
+.bootstrap-select {
+    float: right !important;
+    margin: 10px 0;
+    width: 70px !important;
 }
 
 #filter-pillboi {
@@ -130,6 +126,21 @@ input[type='checkbox'] {
     background-color: rgb(214, 238, 212);
 }
 
+.modal-header {
+    border-bottom: none;
+    padding: 0;
+    margin: 10px 1rem 0 1rem;
+}
+
+.modal-body {
+    padding: 0;
+    margin: 0px 1rem 10px 1rem;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
 .badge-reset {
     background-color: #ebebeb;
 }
@@ -174,5 +185,26 @@ input[type='checkbox'] {
     }
     .footer-copyright {
         font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 350px) {
+    #uglyTitle {
+        font-size: 1.50rem;
+    }
+    #weekday {
+        font-size: 0.95rem;
+    }
+    .btn {
+        font-size: 0.90rem;
+    }
+    thead {
+        font-size: 0.85rem;
+    }
+    tbody {
+        font-size: 0.75rem;
+    }
+    .footer-copyright {
+        font-size: 0.70rem;
     }
 }

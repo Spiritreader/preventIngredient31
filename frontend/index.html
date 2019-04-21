@@ -6,19 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MenSauni</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
     <!-- selectpicker -->
-    <!-- <link rel="stylesheet" href="css/bootstrap-select.min.css"> -->
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/locale.js"></script>
-    <!-- selectpicker -->
-    <!-- <script src="js/bootstrap-select.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="js/init.js"></script>
 </head>
@@ -27,11 +26,11 @@
     <!--<div class="hider"><i class="fas fa-circle-notch fa-spin fa-3x fa-fw margin-bottom spinny-boi"></i></div>-->
     <div class="hider"><i class="fas fa-spin fa-2x fa-spin spinny-boi">Getting menu...</i></div>
     <div class="container">
-        <div class="header">
+        <div class="header d-flex justify-content-between">
             <h1 id="uglyTitle">MenSauni <span id="weekday"></span></h1>
             <select class="selectpicker" id="langSelect">
-                <option value="de">Deutsch</option>
-                <option value="en">English</option>
+                <option value="de">DE</option>
+                <option value="en">EN</option>
             </select>
         </div>
         <div class="input-group datePickerFilterDiv">
@@ -63,8 +62,7 @@
                                 data-target="#collapseAllergens">
                                 Allergene (ausschließen)
                             </div>
-                            <div id="collapseAllergens" class="collapse" aria-labelledby="headingAllergens"
-                                data-parent="#accordion">
+                            <div id="collapseAllergens" class="collapse" aria-labelledby="headingAllergens" data-parent="#accordion">
                                 <div class="card-body">
                                 </div>
                             </div>
@@ -91,12 +89,10 @@
                             </div>
                         </div>
                         <div class="card">
-                            <div class="card-header h-25" id="headingTags" data-toggle="collapse"
-                                data-target="#collapseTags">
+                            <div class="card-header h-25" id="headingTags" data-toggle="collapse" data-target="#collapseTags">
                                 Kategorie (einschließen)
                             </div>
-                            <div id="collapseTags" class="collapse" aria-labelledby="headingTags"
-                                data-parent="#accordion">
+                            <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordion">
                                 <div class="card-body">
 
                                 </div>
@@ -120,14 +116,11 @@
                                 Konstanz</a>
                             <a class="dropdown-item" href="javascript: void(0);" onclick="init('htwgCanteen');">HWTG
                                 Konstanz</a>
-                            <a class="dropdown-item" href="javascript: void(0);"
-                                onclick="init('weingartenCanteen');">Hochschule
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('weingartenCanteen');">Hochschule
                                 Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);"
-                                onclick="init('ravensburgCanteen');">DHBW
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('ravensburgCanteen');">DHBW
                                 Ravensburg</a>
-                            <a class="dropdown-item" href="javascript: void(0);"
-                                onclick="init('FriedrichshafenCanteen');">DHBW
+                            <a class="dropdown-item" href="javascript: void(0);" onclick="init('FriedrichshafenCanteen');">DHBW
                                 Friedrichshafen</a>
                         </div>
                     </th>
@@ -141,28 +134,61 @@
         </table>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">About</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="aboutText"></p>
+                    <hr>
+                    <h5 class="modal-title">Contact us!</h5>
+                    <a class="font-weight-bold kf-blue kf-links" href="mailto:mensauni@gmail.com" target="_blank">Mail</a>
+                    <br>
+                    <a class="font-weight-bold kf-blue kf-links" href="https://github.com/Spiritreader/preventIngredient31"
+                        target="_blank">GitHub</a>
+                    <hr>
+                    <h5 class="modal-title">Disclaimer</h5>
+                    <p id="disclaimerText" class="font-weight-light"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="d-flex justify-content-center mt-auto footer-copyright page-footer">
         <!-- Copyright Info -->
-        <div class="align-center mb-2 mt-2">
+        <!-- <div class="align-center mb-2 mt-2">
             You gotta swing with <b>Ying</b> and jam with <b>Sam</b> - <a class="font-weight-bold kf-blue kf-links"
                 href="mailto:mensauni@gmail.com" target="_blank">Contact
-                us!</a> | <a class="font-weight-bold kf-blue kf-links"
-                href="https://github.com/Spiritreader/preventIngredient31/issues" target="_blank">GitHub</a>
+                us!</a> | <a class="font-weight-bold kf-blue kf-links" href="https://github.com/Spiritreader/preventIngredient31/issues"
+                target="_blank">GitHub</a>
+        </div>-->
+        <div class="align-center mb-2 mt-2">
+            You gotta swing with <b>Ying</b> and jam with <b>Sam</b> - <a class="font-weight-bold kf-blue kf-links"
+                href="javascript:;" data-toggle="modal" data-target="#aboutModal">About</a>
         </div>
         <!-- END Copyright Info -->
     </footer>
     <!-- END Footer -->
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    <script src="js/main.js"></script>
+    <!-- selectpicker -->
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
     <!-- Page init -->

@@ -24,20 +24,10 @@ function onChangeCheckbox() {
                 if (index > -1) {
                     includeTags.splice(index, 1);
                 }
-            }   
+            }
         }
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-        let filterBoi = document.getElementById("filter-pillboi");
-        filterBoi.innerHTML = "";
-        excludeSup.forEach((sup) => {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a> ";
-        })
-        includeTags.forEach((tag) => {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementInfo.categories[tag] + " <i class=\"fas fa-times\"></i></a> ";
-        })
-        if (filterBoi.innerHTML != "") {
-            filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"removeAllFilter()\" class=\"badge badge-pill badge-reset\">Reset Filter <i class=\"fas fa-times\"></i></a> ";
-        }
+        filterBoiAdd();
         showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     })
 }
@@ -85,7 +75,7 @@ function showMenu(menu, day) {
                             } else if (additive) {
                                 splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + additive + "\" data-placement=\"top\" class=\"badge badge-red " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             } else {
-                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"nicht angegeben\" data-placement=\"top\" class=\"badge badge-darkgrey " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
+                                splittedSups[j] = "<span data-toggle=\"tooltip\" title=\"" + locale[localStorage.lang].htmlText.undefined + "\" data-placement=\"top\" class=\"badge badge-darkgrey " + splittedSups[j] + "\">" + splittedSups[j] + "</span>";
                             }
                         }
                         supplements = splittedSups.join(" ");
@@ -249,6 +239,25 @@ function filterBoiRemove(filter) {
     showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), globalSelectedDate);
     if (excludeSup.length === 0 && includeTags.length === 0) {
         document.getElementById("filter-pillboi").innerHTML = "";
+    }
+}
+
+/**
+ * Adds filter tags for checkboxes
+ */
+function filterBoiAdd() {
+    let filterBoi = document.getElementById("filter-pillboi");
+    while (filterBoi.firstChild) {
+        filterBoi.removeChild(filterBoi.firstChild);
+    }
+    excludeSup.forEach((sup) => {
+        filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + sup + "')\" class=\"badge badge-pill badge-light " + sup + "\">" + sup + " <i class=\"fas fa-times\"></i></a> ";
+    })
+    includeTags.forEach((tag) => {
+        filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"filterBoiRemove('" + tag + "')\" class=\"badge badge-pill badge-light " + tag + "\">" + supplementInfo.categories[tag] + " <i class=\"fas fa-times\"></i></a> ";
+    })
+    if (filterBoi.innerHTML != "") {
+        filterBoi.innerHTML += "<a href=\"javascript: void(0);\" onclick=\"removeAllFilter()\" class=\"badge badge-pill badge-reset\">Reset Filter <i class=\"fas fa-times\"></i></a> ";
     }
 }
 

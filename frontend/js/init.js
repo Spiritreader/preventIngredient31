@@ -13,6 +13,7 @@ function init(mensaSelection) {
     if (localStorage.lang == null) {
         localStorage.lang = "de";
     }
+    $('select[id=langSelect]').val(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
     switch (mensaSelection) {
         case "giessbergCanteen":
@@ -31,12 +32,12 @@ function init(mensaSelection) {
             document.getElementById('selectedUniversity').innerText = 'DHBW FN';
             break;
     }
-    setUpLocale(localStorage.lang);
     // Hide menu on uni change if the initial page load occurred
     if (yolo) prepareDynamicReload();
     $.get("/api", { mensa: locale[localStorage.lang].canteens[mensaSelection], lang: localStorage.lang }, function (response) {
         menuAll = response;
         supplementInfo = locale[localStorage.lang].supplements;
+        setUpLocale(localStorage.lang);
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
         // Reset global date to the last available, prevents date from jumping to next month when switching
@@ -223,7 +224,15 @@ function populateCheckboxes(supplements) {
         injectTags(tags, supplements.categories, key, 'tags');
     });
     tags.appendChild(rowElement);
+    //todo: reapply previously selected checkboxes
+    excludeSup.forEach((sup) => {
+        document.getElementById(sup).checked = true;
+    })
+    includeTags.forEach((tag) => {
+        document.getElementById(tag).checked = true;
+    })
     onChangeCheckbox();
+    filterBoiAdd();
 }
 
 function inject(body, lookup, key, classInfo) {
@@ -292,7 +301,6 @@ function injectTags(body, lookup, key, classInfo) {
  * Change language dependent on the selected language
  */
 function setUpLocale(language) {
-    $('select[id=langSelect]').val(language);
     let text = locale[language].htmlText;
     document.getElementById("sr-next").innerText = text.srNext;
     document.getElementById("sr-previous").innerText = text.srPrevious;
@@ -301,6 +309,8 @@ function setUpLocale(language) {
     document.getElementById("headingTags").innerText = text.headingTags;
     document.getElementById("headingPrice").innerText = text.headingPrice;
     document.getElementById("headingCategory").innerText = text.headingCategory;
+    document.getElementById("disclaimerText").innerHTML = text.disclaimerText;
+    document.getElementById("aboutText").innerHTML = text.aboutText;
     populateCheckboxes(locale[language].supplements);
 }
 

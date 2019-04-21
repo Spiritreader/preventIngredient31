@@ -71,7 +71,19 @@ const locale = {
             "headingSupplements": "Zusatzstoffe (ausschließen)",
             "headingTags": "Kategorien (auswählen)",
             "headingPrice": "Preis",
-            "headingCategory": "Kategorie"
+            "headingCategory": "Kategorie",
+            "undefined": "nicht angegeben",
+            "aboutText": "MenSauni wurde erschaffen, um ein besseres Auslesen der Mensa Speisepläne von Seezeit zu ermöglichen. <br>"
+                + "Mithilfe des Filters können Additive, Zusatzstoffe ausgeschlossen sowie Kategorien ausgewählt werden. <br>"
+                + "Zudem stehen alle Mensen zur Verfügung die Seezeit anbietet. "
+                + "Dazu einfach die Region mit dem Pfeil in der Tabellenüberschrift der Mensa anklicken.",
+            "disclaimerText": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, " 
+                + "Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. " 
+                + "Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. "
+                + "Nach § 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zuforschen, die auf eine rechtswidrige Tätigkeit hinweisen. "
+                + "Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. "
+                + "Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. "
+                + "Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen."
         }
     },
     "en": {
@@ -129,7 +141,7 @@ const locale = {
                 "W": "Game",
                 "F": "Fish",
                 "B": "Better animal husbandry"
-            }
+            },
         },
         "canteens": {
             "giessbergCanteen": "giessberg-canteen",
@@ -146,7 +158,18 @@ const locale = {
             "headingSupplements": "Additives (exclude)",
             "headingTags": "Categories (select)",
             "headingPrice": "Price",
-            "headingCategory": "Category"
-        }
+            "headingCategory": "Category",
+            "undefined": "not provided",
+            "aboutText": "MenSauni was created to provide a better user experience when looking at Seezeit food menus. <br>"
+                + "You can filter by additives, allergens and categories and select available Seezeit canteens by clicking "
+                + "on the arrow next to the canteen name in the table header.",
+            "disclaimerText": "The information contained in this website is for general information purposes only. " 
+                +"The information is provided by Seezeit and while we endeavour to keep the information up to date and correct, "
+                + "we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability "
+                + "with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. "
+                + "Any reliance you place on such information is therefore strictly at your own risk.<br><br>"
+                + "In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, "
+                + "or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website."
+        },
     }
 }
