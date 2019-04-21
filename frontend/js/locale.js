@@ -1,4 +1,4 @@
-const lang = {
+const locale = {
     "de": {
         "supplements": {
             "allergens": {
@@ -56,6 +56,14 @@ const lang = {
                 "B": "Bessere Tierhaltung"
             }
         },
+        "canteens": {
+            "giessbergCanteen": "mensa-giessberg",
+            "htwgCanteen": "mensa-htwg",
+            "weingartenCanteen": "mensa-weingarten",
+            "ravensburgCanteen": "mensa-ravensburg",
+            "friedrichshafenCanteen": "mensa-friedrichshafen"
+        },
+        "weekdays": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
         "htmlText": {
             "srNext": "Nächste",
             "srPrevious": "Vorherige",
@@ -123,6 +131,14 @@ const lang = {
                 "B": "Better animal husbandry"
             }
         },
+        "canteens": {
+            "giessbergCanteen": "giessberg-canteen",
+            "htwgCanteen": "htwg-canteen",
+            "weingartenCanteen": "weingarten-canteen",
+            "ravensburgCanteen": "ravensburg-canteen",
+            "friedrichshafenCanteen": "friedrichshafen-canteen"
+        },
+        "weekdays": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         "htmlText": {
             "srNext": "Next",
             "srPrevious": "Previous",

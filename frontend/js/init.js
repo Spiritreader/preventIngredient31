@@ -4,58 +4,39 @@ let yolo = false; // You Only Load Once
 let menuAll;
 let menuDatePickr;
 let globalSelectedDate = new Date();
-let supplementTranslation;
+let supplementInfo;
 let menuFirstDay;
 let menuLastDay;
 
 function init(mensaSelection) {
+    globalSelectedDate.setHours(12,0,0);
     if (localStorage.lang == null) {
         localStorage.lang = "de";
     }
-    changeHtmlText(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
     switch (mensaSelection) {
-        case "mensa-giessberg":
+        case "giessbergCanteen":
             document.getElementById('selectedUniversity').innerText = 'Uni KN';
             break;
-        case "mensa-htwg":
+        case "htwgCanteen":
             document.getElementById('selectedUniversity').innerText = 'HTWG KN';
             break;
-        case "mensa-weingarten":
+        case "weingartenCanteen":
             document.getElementById('selectedUniversity').innerText = 'HS RV';
             break;
-        case "mensa-ravensburg":
+        case "ravensburgCanteen":
             document.getElementById('selectedUniversity').innerText = 'DHBW RV';
             break;
-        case "mensa-friedrichshafen":
+        case "friedrichshafenCanteen":
             document.getElementById('selectedUniversity').innerText = 'DHBW FN';
             break;
     }
+    setUpLocale(localStorage.lang);
     // Hide menu on uni change if the initial page load occurred
-    if (yolo) {
-        let hiderMenu = document.getElementById("hiderMenu");
-        hiderMenu.classList.add("hiderMenu");
-        let spinnyBoi = document.getElementById("spinny-boi-menu");
-        spinnyBoi.classList.remove("hide");
-        let tableMenu = document.getElementById("tableMenu");
-        tableMenu.classList.add("hide");
-    }
-    let isWeekend = (globalSelectedDate.getDay() === 6) || (globalSelectedDate.getDay() === 0);
-    if (isWeekend) {
-        globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
-    }
-    updateHeaderDay();
-    let month = globalSelectedDate.getMonth() + 1;
-    if (month < 10) {
-        month = "0" + month;
-    }
-    let date = globalSelectedDate.getDate();
-    if (date < 10) {
-        date = "0" + date;
-    }
-    document.getElementById("calendar-dateboi").value = date + "." + month;
-    $.get("/api", { mensa: mensaSelection }, function (response) {
+    if (yolo) prepareDynamicReload();
+    $.get("/api", { mensa: locale[localStorage.lang].canteens[mensaSelection], lang: localStorage.lang }, function (response) {
         menuAll = response;
+        
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
         // Reset global date to the last available, prevents date from jumping to next month when switching
@@ -85,6 +66,30 @@ function init(mensaSelection) {
             }
         }
 
+        //check globalSelectedDate is a weekend
+        let isWeekend = (globalSelectedDate.getDay() === 6) || (globalSelectedDate.getDay() === 0);
+        if (isWeekend) {
+            //check if the first saturday is defined. If not, that means there is no weekend menu -> skip to monday
+            if (firstSaturday) {
+                //check if the globalSelectedDate is NOT on the first saturday with a menu.
+                if (!(firstSaturday.getDate() === globalSelectedDate.getDate())) {
+                    //check if the second saturday menu is defined. If not, that means we're not on a menu day -> skip
+                    if (secondSaturday) {
+                        //check if the second saturday is NOT on a menu date. If this is true, we want to skip.
+                        if (!(secondSaturday.getDate() === globalSelectedDate.getDate())) {
+                            globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
+                        }
+                    } else {
+                        globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
+                    }
+                }
+            } else {
+                globalSelectedDate.setDate(globalSelectedDate.getDate() + (1 + 7 - globalSelectedDate.getDay()) % 7);
+            }
+        }
+        updateHeaderDay(localStorage.lang);
+
+        //init flatpickr, specifically enable saturday menu days
         menuDatePickr = flatpickr("#calendar-dateboi", {
             minDate: menuFirstDay,
             maxDate: menuLastDay,
@@ -105,8 +110,13 @@ function init(mensaSelection) {
             dateFormat: "d.m",
             onChange: dateChanger
         });
+        //update flatpickr date after init
+        menuDatePickr.setDate(globalSelectedDate);
+
+        //if init has not fulfilled the you only load once condition
         if (!yolo) {
-            // Show everything ;)
+            // Show everything after initial page load completed ;)
+            // Initial loading spinner gets removed after initial page load
             let hider = document.getElementsByClassName("hider")[0];
             let hiderMenu = document.getElementById("hiderMenu");
             let spinnyBoi = document.getElementById("spinny-boi-menu");
@@ -114,27 +124,42 @@ function init(mensaSelection) {
             hiderMenu.classList.remove("hiderMenu");
             spinnyBoi.classList.add("hide");
 
-            supplementTranslation = lang[localStorage.lang].supplements;
-            processCheckboxes(lang[localStorage.lang].supplements);
             yolo = true;
-            showMenu(response, new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+            supplementInfo = locale[localStorage.lang].supplements;
+            showMenu(response, getYMDOnly(globalSelectedDate));
         } else {
-            menuDatePickr.setDate(globalSelectedDate);
-            let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-            showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
-            let hiderMenu = document.getElementById("hiderMenu");
-            let spinnyBoi = document.getElementById("spinny-boi-menu");
-            let tableMenu = document.getElementById("tableMenu");
-            hiderMenu.classList.remove("hiderMenu");
-            spinnyBoi.classList.add("hide");
-            tableMenu.classList.remove("hide");
+            dynamicReload();
         }
     });
 
 }
 
-function updateHeaderDay() {
-    let day = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"][globalSelectedDate.getDay()]
+/**
+ * Prepares a dynamic reload by starting the spinner for the table only
+ */
+function prepareDynamicReload() {
+    let hiderMenu = document.getElementById("hiderMenu");
+    hiderMenu.classList.add("hiderMenu");
+    let spinnyBoi = document.getElementById("spinny-boi-menu");
+    spinnyBoi.classList.remove("hide");
+    let tableMenu = document.getElementById("tableMenu");
+    tableMenu.classList.add("hide");
+}
+
+function dynamicReload() {
+    let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
+    menuDatePickr.setDate(globalSelectedDate);
+    showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), getYMDOnly(globalSelectedDate));
+    let hiderMenu = document.getElementById("hiderMenu");
+    let spinnyBoi = document.getElementById("spinny-boi-menu");
+    let tableMenu = document.getElementById("tableMenu");
+    hiderMenu.classList.remove("hiderMenu");
+    spinnyBoi.classList.add("hide");
+    tableMenu.classList.remove("hide");
+}
+
+function updateHeaderDay(language) {
+    let day = locale[language].weekdays[globalSelectedDate.getDay()]
     //let day = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"][globalSelectedDate.getDay()]
     document.getElementById('weekday').innerText = day;
 }
@@ -151,31 +176,32 @@ function dateChanger(selectedDates) {
         }
         globalSelectedDate = selectedDate;
         let menuToBeFiltered = JSON.parse(JSON.stringify(menuAll));
-        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined),
-            new Date(globalSelectedDate.getFullYear(), globalSelectedDate.getMonth(), globalSelectedDate.getDate()));
+        showMenu(filterMenu(menuToBeFiltered, excludeSup, (includeTags.length != 0) ? includeTags : undefined), getYMDOnly(globalSelectedDate));
     }
 }
 
-/**
- * Time in days between two dates
- * @param {*} dt1 StartDate
- * @param {*} dt2 EndDate
- */
-function tdiff(dt1, dt2) {
-    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
-}
 
 /**
  * Add filter-checkboxes to the page
  * @param {*} supplements json of supplements, allergens and tags 
  */
-function processCheckboxes(supplements) {
+function populateCheckboxes(supplements) {
     let allergenKeys = Object.keys(supplements.allergens).sort();
     let additivesKeys = Object.keys(supplements.additives);
     let tagKeys = Object.keys(supplements.categories).sort();
     let allergens = document.querySelector("#collapseAllergens > div");
     let additives = document.querySelector("#collapseSupplements > div");
     let tags = document.querySelector("#collapseTags > div");
+
+    while (allergens.firstChild) {
+        allergens.removeChild(allergens.firstChild);
+    }
+    while (additives.firstChild) {
+        additives.removeChild(additives.firstChild);
+    }
+    while (tags.firstChild) {
+        tags.removeChild(tags.firstChild);
+    }
 
     rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row');
@@ -261,4 +287,33 @@ function injectTags(body, lookup, key, classInfo) {
         rowElement = document.createElement('div');
         rowElement.setAttribute('class', 'row')
     }
+}
+
+/**
+ * Change language dependent on the selected language
+ */
+function setUpLocale(language) {
+    $('select[id=langSelect]').val(language);
+    let text = locale[language].htmlText;
+    document.getElementById("sr-next").innerText = text.srNext;
+    document.getElementById("sr-previous").innerText = text.srPrevious;
+    document.getElementById("headingAllergens").innerText = text.headingAllergens;
+    document.getElementById("headingSupplements").innerText = text.headingSupplements;
+    document.getElementById("headingTags").innerText = text.headingTags;
+    document.getElementById("headingPrice").innerText = text.headingPrice;
+    document.getElementById("headingCategory").innerText = text.headingCategory;
+    populateCheckboxes(locale[language].supplements);
+}
+
+/**
+ * Time in days between two dates
+ * @param {*} dt1 StartDate
+ * @param {*} dt2 EndDate
+ */
+function tdiff(dt1, dt2) {
+    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+}
+
+function getYMDOnly(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }

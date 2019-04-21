@@ -1,8 +1,10 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const mcache = require('memory-cache');
-const seezeitURL = 'https://www.seezeit.com/essen/speiseplaene/';
-const defaultMensa = 'mensa-giessberg';
+const seezeitDE = 'https://www.seezeit.com/essen/speiseplaene/';
+const seezeitEN = 'https://www.seezeit.com/en/food/menus/';
+const defaultMensaDE = 'mensa-giessberg';
+const defaultMensaEN = 'giessberg-canteen'
 //cache duration in seconds
 const cacheDuration = (3600 * 12);
 
@@ -133,7 +135,7 @@ function handleApiGet(req, res) {
         res.json(filterMenu(JSON.parse(JSON.stringify(cachedBody)), req.query.excludeSup, req.query.includeTags)).status(200);
     } else {
         console.log("Returning non-cached result for " + req.query.mensa);
-        JSDOM.fromURL(seezeitURL + req.query.mensa, '').then(dom => {
+        JSDOM.fromURL(req.query.langURL + req.query.mensa, '').then(dom => {
             let menus = getAllMenus(dom.window.document);
             let menusFiltered = filterMenu(JSON.parse(JSON.stringify(menus)), req.query.excludeSup, req.query.includeTags);
             mcache.put(key, menus, cacheDuration * 1000);
@@ -143,8 +145,22 @@ function handleApiGet(req, res) {
 }
 
 function parseQuery(req, res, next) {
-    if (!req.query.mensa) {
-        req.query.mensa = defaultMensa;
+    if (!req.query.lang) {
+        req.query.lang = "de";
+        req.query.langURL = seezeitDE;
+    } else if (req.query.lang !== "de" && req.query.lang !== "en") {
+        req.query.lang = "de";
+        req.query.langURL = seezeitDE;
+    } else if (req.query.lang === "en") {
+        req.query.langURL = seezeitEN;
+    } else if (req.query.lang === "de") {
+        req.query.langURL = seezeitDE;
+    }
+
+    if (!req.query.mensa && req.query.lang === "de") {
+        req.query.mensa = defaultMensaDE;
+    } else if (!req.query.mensa && req.query.lang === "en") {
+        req.query.mensa = defaultMensaEN;
     }
     const supplements = [];
     if (Array.isArray(req.query.excludeSup) || Array.isArray(req.query.includeTags)) {
