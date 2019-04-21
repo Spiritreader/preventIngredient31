@@ -116,8 +116,8 @@ const locale = {
                 "8": "Phosphate",
                 "9": "Sweetener",
                 "10": "Encloses phenylalanine",
-                "11": "genetically modified",
-                "12": "encloses gentech-soy"
+                "11": "Genetically modified",
+                "12": "Encloses gentech-soy"
             },
             "categories": {
                 "Veg": "Vegetarian",

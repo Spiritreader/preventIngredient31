@@ -36,7 +36,7 @@ function init(mensaSelection) {
     if (yolo) prepareDynamicReload();
     $.get("/api", { mensa: locale[localStorage.lang].canteens[mensaSelection], lang: localStorage.lang }, function (response) {
         menuAll = response;
-        
+        supplementInfo = locale[localStorage.lang].supplements;
         menuFirstDay = new Date(menuAll[0].date);
         menuLastDay = new Date(menuAll[menuAll.length - 1].date);
         // Reset global date to the last available, prevents date from jumping to next month when switching
@@ -125,7 +125,6 @@ function init(mensaSelection) {
             spinnyBoi.classList.add("hide");
 
             yolo = true;
-            supplementInfo = locale[localStorage.lang].supplements;
             showMenu(response, getYMDOnly(globalSelectedDate));
         } else {
             dynamicReload();
