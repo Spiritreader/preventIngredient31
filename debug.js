@@ -6,6 +6,7 @@ const PORT = 1337;
 const backend = require('./backend.js')
 
 app.get("/api", cors(), backend.parseQuery, backend.handleApiGet);
+app.get("/apiv2", cors(), backend.parseQuery, backend.convertQueryToXmlFormat, backend.handleApiV2Get);
 app.use(express.static('frontend'));
 app.use(helmet());
 app.listen(PORT, () => {

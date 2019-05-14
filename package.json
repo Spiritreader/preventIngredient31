@@ -16,7 +16,9 @@
         "cors": "^2.8.5",
         "express": "^4.16.4",
         "helmet": "^3.16.0",
+        "http": "0.0.0",
         "jsdom": "^14.0.0",
-        "memory-cache": "^0.2.0"
+        "memory-cache": "^0.2.0",
+        "xml2js": "^0.4.19"
     }
 }

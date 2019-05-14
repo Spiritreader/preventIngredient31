@@ -1,8 +1,12 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const mcache = require('memory-cache');
+const parseString = require('xml2js').parseString;
+const http = require('http');
 const seezeitDE = 'https://www.seezeit.com/essen/speiseplaene/';
 const seezeitEN = 'https://www.seezeit.com/en/food/menus/';
+const seezeitXmlDE = 'http://www.max-manager.de/daten-extern/seezeit/xml/%i/speiseplan.xml';
+const seezeitXmlEN = 'http://www.max-manager.de/daten-extern/seezeit/xml/%i/speiseplan_en.xml';
 const defaultMensaDE = 'mensa-giessberg';
 const defaultMensaEN = 'giessberg-canteen'
 //cache duration in seconds
@@ -144,6 +148,49 @@ function handleApiGet(req, res) {
     }
 }
 
+function handleApiV2Get(req, res) {
+    if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
+        console.log("GET received from " + req.ip + " with query " + "exclude_sups=(" + req.query.excludeSup + ") include_tags=(" + req.query.includeTags + ")");
+    } else {
+        console.log("GET received from " + req.ip + ", user-agent: " + req.get('User-Agent'));
+    }
+    http.get('http://nodejs.org/dist/index.json', (httpRes) => {
+        const { statusCode } = httpRes;
+        const contentType = httpRes.headers['content-type'];
+
+        let error;
+        if (statusCode !== 200) {
+            error = new Error('Request Failed.\n' +
+                `Status Code: ${statusCode}`);
+        } else if (!/^text\/xml/.test(contentType)) {
+            error = new Error('Invalid content-type.\n' +
+                `Expected text/xml but received ${contentType}`);
+        }
+        if (error) {
+            console.error(error.message);
+            // Consume response data to free up memory
+            httpRes.resume();
+            return;
+        }
+
+        httpRes.setEncoding('utf8');
+        let rawData = '';
+        httpRes.on('data', (chunk) => { rawData += chunk; });
+        httpRes.on('end', () => {
+            parseString(rawData, (res, data) => {
+                convertXmltoJson(xml)
+                res.send("under construction...").status(200);
+            });
+        });
+    }).on('error', (e) => {
+        console.error(`Got error: ${e.message}`);
+    });
+}
+
+function convertXmltoJson(xml) {
+    console.log(xml);
+}
+
 function parseQuery(req, res, next) {
     if (!req.query.lang) {
         req.query.lang = "de";
@@ -189,5 +236,19 @@ function parseQuery(req, res, next) {
     next();
 }
 
+function convertQueryToXmlFormat(req, res, next) {
+    if (req.query.langURL === seezeitDE) {
+        req.query.langURL = seezeitXmlDE.replace("%i", req.query.mensa.replace("-", "_"));
+    } else if (req.query.langURL === seezeitEN) {
+        if (req.query.mensa === defaultMensaEN) {
+            req.query.mensa = defaultMensaDE;
+        }
+        req.query.langURL = seezeitXmlEN.replace("%i", req.query.mensa.replace("-", "_"));
+    }
+    next();
+}
+
 module.exports.parseQuery = parseQuery;
 module.exports.handleApiGet = handleApiGet;
+module.exports.convertQueryToXmlFormat = convertQueryToXmlFormat;
+module.exports.handleApiV2Get = handleApiV2Get;
