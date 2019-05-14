@@ -79,6 +79,9 @@ function getAllMenus(dom) {
 
 function convertXmltoJson(xml) {
     menus = [];
+    if (!xml) {
+        return menus;
+    }
     xml.speiseplan.tag.forEach((day) => {
         let menu = {
             date: new Date(day.$.timestamp * 1000),
@@ -109,12 +112,12 @@ function convertXmltoJson(xml) {
                 }                    
             });
             dish = {
-                Name: item.title[0],
-                Category: item.category[0],
-                Pricing: item.preis1[0],
-                PricingSchool: item.preis2[0],
-                PricingEmp: item.preis3[0],
-                PricingGuest: item.preis4[0],
+                Name: item.title ? item.title[0] : "",
+                Category: item.category ? item.category[0]: "",
+                Pricing: item.preis1 ? item.preis1[0] : "",
+                PricingSchool: item.preis2 ? item.preis2[0]: "",
+                PricingEmp: item.preis3 ? item.preis3[0]: "",
+                PricingGuest: item.preis4 ? item.preis4[0]: "",
                 Tags: tags
             }
             menu.dishes.push(dish)
