@@ -111,13 +111,31 @@ function convertXmltoJson(xml) {
                     break; 
                 }                    
             });
+            const gramPrice = "Pro 100g: "
+            if (item.category && ((item.category[0] === "Bioessen") || (item.category[0] === "Wok"))) {
+                if (item.preis1) {
+                    item.preis1[0] = gramPrice + item.preis1[0];
+                }
+                if (item.preis2) {
+                    item.preis2[0] = gramPrice + item.preis2[0];
+                }
+                if (item.preis3) {
+                    item.preis3[0] = gramPrice + item.preis3[0];
+                }
+                if (item.preis4) {
+                    item.preis4[0] = gramPrice + item.preis4[0];
+                }
+            }
+            if (item.title && item.title[0].includes("Fleischbällchen")) {
+                item.title[0] = item.title[0].replace("Fleischbällchen", "leischbällchen");
+            } 
             dish = {
                 Name: item.title ? item.title[0] : "",
                 Category: item.category ? item.category[0]: "",
-                Pricing: item.preis1 ? item.preis1[0] : "",
-                PricingSchool: item.preis2 ? item.preis2[0]: "",
-                PricingEmp: item.preis3 ? item.preis3[0]: "",
-                PricingGuest: item.preis4 ? item.preis4[0]: "",
+                Pricing: item.preis1 ? item.preis1[0] + " €" : "",
+                PricingSchool: item.preis2 ? item.preis2[0] + " €": "",
+                PricingEmp: item.preis3 ? item.preis3[0] + " €" : "",
+                PricingGuest: item.preis4 ? item.preis4[0] + " €": "",
                 Tags: tags
             }
             menu.dishes.push(dish)
