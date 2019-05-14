@@ -153,6 +153,13 @@ function convertXmltoJson(xml) {
                 PricingGuest: item.preis4 ? item.preis4[0] + " €": "",
                 Tags: tags
             }
+            //fix BBQ section
+            if (dish.Category === "Gießberghütte" || dish.Category === "BBQ") {
+                dish.Pricing = "-";
+                dish.PricingSchool = "-";
+                dish.PricingEmp = "-";
+                dish.Pricing = "-";
+            }
             menu.dishes.push(dish)
         });
         menus.push(menu);
