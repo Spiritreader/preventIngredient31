@@ -144,6 +144,13 @@ const locale = {
             },
         },
         "canteens": {
+            "giessbergCanteen": "mensa-giessberg",
+            "htwgCanteen": "mensa-htwg",
+            "weingartenCanteen": "mensa-weingarten",
+            "ravensburgCanteen": "mensa-ravensburg",
+            "friedrichshafenCanteen": "mensa-friedrichshafen"
+        },
+        "canteensEn": {
             "giessbergCanteen": "giessberg-canteen",
             "htwgCanteen": "htwg-canteen",
             "weingartenCanteen": "weingarten-canteen",

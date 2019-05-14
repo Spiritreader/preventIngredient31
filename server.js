@@ -20,6 +20,7 @@ const httpsServer = https.createServer(credentials, app);
 const httpServer = http.createServer(app);
 
 app.get("/api", cors(), backend.parseQuery, backend.handleApiGet);
+app.get("/api/v2", cors(), backend.parseQuery, backend.convertQueryToXmlFormat, backend.handleApiV2Get);
 
 /* Set up server */
 app.all('*', ensureSecure);

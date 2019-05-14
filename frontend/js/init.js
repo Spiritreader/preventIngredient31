@@ -34,7 +34,7 @@ function init(mensaSelection) {
     }
     // Hide menu on uni change if the initial page load occurred
     if (yolo) prepareDynamicReload();
-    $.get("/api", { mensa: locale[localStorage.lang].canteens[mensaSelection], lang: localStorage.lang }, function (response) {
+    $.get("/api/v2", { mensa: locale[localStorage.lang].canteens[mensaSelection], lang: localStorage.lang }, function (response) {
         menuAll = response;
         supplementInfo = locale[localStorage.lang].supplements;
         setUpLocale(localStorage.lang);

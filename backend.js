@@ -78,7 +78,6 @@ function getAllMenus(dom) {
 }
 
 function convertXmltoJson(xml) {
-    console.log(xml);
     menus = [];
     xml.speiseplan.tag.forEach((day) => {
         let menu = {
