@@ -77,6 +77,54 @@ function getAllMenus(dom) {
     return menus;
 }
 
+function convertXmltoJson(xml) {
+    console.log(xml);
+    menus = [];
+    xml.speiseplan.tag.forEach((day) => {
+        let menu = {
+            date: new Date(day.$.timestamp * 1000),
+            dishes: []
+        };
+        day.item.forEach((item) => {
+            let tags = [];
+            item.icons[0].split(",").forEach((icon) => {
+                switch (icon) {
+                    case "23": tags.push("B");
+                    break;
+                    case "24": tags.push("Vegan");
+                    break;
+                    case "45": tags.push("Sch");
+                    break; 
+                    case "46": tags.push("R");
+                    break; 
+                    case "48": tags.push("L");
+                    break; 
+                    case "49": tags.push("G");
+                    break; 
+                    case "50": tags.push("F");
+                    break;
+                    case "51": tags.push("Veg");
+                    break; 
+                    case "52": tags.push("W");
+                    break; 
+                }                    
+            });
+            dish = {
+                Name: item.title[0],
+                Category: item.category[0],
+                Pricing: item.preis1[0],
+                PricingSchool: item.preis2[0],
+                PricingEmp: item.preis3[0],
+                PricingGuest: item.preis4[0],
+                Tags: tags
+            }
+            menu.dishes.push(dish)
+        });
+        menus.push(menu);
+    });
+    return menus;
+}
+
 /**
  * Returns all supplements found in a string
  * @param {*} string String with supplement list in the form of /\(\d.*\)/
@@ -154,7 +202,7 @@ function handleApiV2Get(req, res) {
     } else {
         console.log("GET received from " + req.ip + ", user-agent: " + req.get('User-Agent'));
     }
-    http.get('http://nodejs.org/dist/index.json', (httpRes) => {
+    http.get(req.query.langURL, (httpRes) => {
         const { statusCode } = httpRes;
         const contentType = httpRes.headers['content-type'];
 
@@ -162,9 +210,9 @@ function handleApiV2Get(req, res) {
         if (statusCode !== 200) {
             error = new Error('Request Failed.\n' +
                 `Status Code: ${statusCode}`);
-        } else if (!/^text\/xml/.test(contentType)) {
+        } else if (!/^application\/xml/.test(contentType)) {
             error = new Error('Invalid content-type.\n' +
-                `Expected text/xml but received ${contentType}`);
+                `Expected application/xml but received ${contentType}`);
         }
         if (error) {
             console.error(error.message);
@@ -177,18 +225,17 @@ function handleApiV2Get(req, res) {
         let rawData = '';
         httpRes.on('data', (chunk) => { rawData += chunk; });
         httpRes.on('end', () => {
-            parseString(rawData, (res, data) => {
-                convertXmltoJson(xml)
-                res.send("under construction...").status(200);
+            parseString(rawData, function (err, result) {
+                if (err) {
+                    res.send("it's all fucked up m8").status(503);
+                    return;
+                }
+                res.json(filterMenu(convertXmltoJson(result), req.query.excludeSup, req.query.includeTags)).status(200);
             });
         });
     }).on('error', (e) => {
         console.error(`Got error: ${e.message}`);
     });
-}
-
-function convertXmltoJson(xml) {
-    console.log(xml);
 }
 
 function parseQuery(req, res, next) {
