@@ -126,6 +126,21 @@ function convertXmltoJson(xml) {
                     item.preis4[0] = gramPrice + item.preis4[0];
                 }
             }
+            const gramPriceEn = "Per 100g: "
+            if (item.category && ((item.category[0] === "organic meal") || (item.category[0] === "wok"))) {
+                if (item.preis1) {
+                    item.preis1[0] = gramPriceEn + item.preis1[0];
+                }
+                if (item.preis2) {
+                    item.preis2[0] = gramPriceEn + item.preis2[0];
+                }
+                if (item.preis3) {
+                    item.preis3[0] = gramPriceEn + item.preis3[0];
+                }
+                if (item.preis4) {
+                    item.preis4[0] = gramPriceEn + item.preis4[0];
+                }
+            }
             if (item.title && item.title[0].includes("Fleischbällchen")) {
                 item.title[0] = item.title[0].replace("Fleischbällchen", "leischbällchen");
             } 
