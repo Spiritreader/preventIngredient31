@@ -179,16 +179,18 @@ function filterMenu(menus, excludeSup, includeTags) {
 function handleApiGet(req, res) {
     if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
         console.log("API v1: GET received from " + req.ip + " with query " + "exclude_sups=(" + req.query.excludeSup + ") include_tags=(" + req.query.includeTags + ")");
+        console.log("API v1: user-agent: " + req.get('User-Agent'));
     } else {
-        console.log("API v1: GET received from " + req.ip + ", user-agent: " + req.get('User-Agent'));
+        console.log("API v1: GET received from " + req.ip);
+        console.log("API v1: user-agent: " + req.get('User-Agent'));
     }
     let key = '__express__' + req.query.mensa;
     let cachedBody = mcache.get(key);
     if (cachedBody) {
-        console.log("Returning cached result for " + req.query.mensa + " with cache: " + mcache.keys());
+        console.log("API v1: Returning cached result for " + req.query.mensa + " with cache: " + mcache.keys());
         res.json(filterMenu(JSON.parse(JSON.stringify(cachedBody)), req.query.excludeSup, req.query.includeTags)).status(200);
     } else {
-        console.log("Returning non-cached result for " + req.query.mensa);
+        console.log("API v1: Returning non-cached result for " + req.query.mensa);
         JSDOM.fromURL(req.query.langURL + req.query.mensa, '').then(dom => {
             let menus = getAllMenus(dom.window.document);
             let menusFiltered = filterMenu(JSON.parse(JSON.stringify(menus)), req.query.excludeSup, req.query.includeTags);
@@ -200,9 +202,11 @@ function handleApiGet(req, res) {
 
 function handleApiV2Get(req, res) {
     if ((req.query.includeTags && req.query.includeTags.length != 0) || req.query.excludeSup.length != 0) {
-        console.log("API v2: GET received from " + req.ip + " with query " + "exclude_sups=(" + req.query.excludeSup + ") include_tags=(" + req.query.includeTags + ")");
+        console.log("API v2: GET received from " + req.ip + " for " + req.query.mensa + " with query " + "exclude_sups=(" + req.query.excludeSup + ") include_tags=(" + req.query.includeTags + ")");
+        console.log("API v2: User Agent: " + req.get('User-Agent'));
     } else {
-        console.log("API v2: GET received from " + req.ip + ", user-agent: " + req.get('User-Agent'));
+        console.log("API v2: GET received from " + req.ip + " for " + req.query.mensa)
+        console.log("API v2: User Agent: " + req.get('User-Agent'));
     }
     http.get(req.query.langURL, (httpRes) => {
         const { statusCode } = httpRes;
