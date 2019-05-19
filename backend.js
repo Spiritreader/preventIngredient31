@@ -126,10 +126,10 @@ function convertXmltoJson(xml) {
             }
 
             if (item.einheit && item.einheit[0]) {
-                dish.Pricing = dish.Pricing + `/${item.einheit[0]}g: `;
-                dish.PricingSchool = dish.PricingSchool + `/${item.einheit[0]}g: `;
-                dish.PricingEmp = dish.PricingEmp + `/${item.einheit[0]}g: `;
-                dish.PricingGuest = dish.PricingGuest + `/${item.einheit[0]}g: `;
+                dish.Pricing = dish.Pricing + `/${item.einheit[0]}g `;
+                dish.PricingSchool = dish.PricingSchool + `/${item.einheit[0]}g `;
+                dish.PricingEmp = dish.PricingEmp + `/${item.einheit[0]}g `;
+                dish.PricingGuest = dish.PricingGuest + `/${item.einheit[0]}g `;
             }
 
             //fix BBQ section
