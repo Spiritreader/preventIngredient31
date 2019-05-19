@@ -111,36 +111,7 @@ function convertXmltoJson(xml) {
                     break; 
                 }                    
             });
-            const gramPrice = "Pro 100g: "
-            if (item.category && ((item.category[0] === "Bioessen") || (item.category[0] === "Wok"))) {
-                if (item.preis1) {
-                    item.preis1[0] = gramPrice + item.preis1[0];
-                }
-                if (item.preis2) {
-                    item.preis2[0] = gramPrice + item.preis2[0];
-                }
-                if (item.preis3) {
-                    item.preis3[0] = gramPrice + item.preis3[0];
-                }
-                if (item.preis4) {
-                    item.preis4[0] = gramPrice + item.preis4[0];
-                }
-            }
-            const gramPriceEn = "Per 100g: "
-            if (item.category && ((item.category[0] === "organic meal") || (item.category[0] === "wok"))) {
-                if (item.preis1) {
-                    item.preis1[0] = gramPriceEn + item.preis1[0];
-                }
-                if (item.preis2) {
-                    item.preis2[0] = gramPriceEn + item.preis2[0];
-                }
-                if (item.preis3) {
-                    item.preis3[0] = gramPriceEn + item.preis3[0];
-                }
-                if (item.preis4) {
-                    item.preis4[0] = gramPriceEn + item.preis4[0];
-                }
-            }
+
             if (item.title && item.title[0].includes("Fleischbällchen")) {
                 item.title[0] = item.title[0].replace("Fleischbällchen", "leischbällchen");
             } 
@@ -153,12 +124,20 @@ function convertXmltoJson(xml) {
                 PricingGuest: item.preis4 ? item.preis4[0] + " €": "",
                 Tags: tags
             }
+
+            if (item.einheit && item.einheit[0]) {
+                dish.Pricing = dish.Pricing + `/${item.einheit[0]}g: `;
+                dish.PricingSchool = dish.PricingSchool + `/${item.einheit[0]}g: `;
+                dish.PricingEmp = dish.PricingEmp + `/${item.einheit[0]}g: `;
+                dish.PricingGuest = dish.PricingGuest + `/${item.einheit[0]}g: `;
+            }
+
             //fix BBQ section
             if (dish.Category === "Gießberghütte" || dish.Category === "BBQ") {
                 dish.Pricing = "-";
                 dish.PricingSchool = "-";
                 dish.PricingEmp = "-";
-                dish.Pricing = "-";
+                dish.PricingGuest = "-";
             }
             menu.dishes.push(dish)
         });
