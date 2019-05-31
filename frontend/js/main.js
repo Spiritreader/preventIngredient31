@@ -97,7 +97,6 @@ function showMenu(menu, day) {
             newElement += "<span data-toggle=\"tooltip\" title=\"" + supplementInfo.categories[tag] + "\" data-placement=\"top\"><img class=\"tagImg\" src=\"./img/" + tag + ".png\" /></span>";
         })
         newElement += "</td></tr>";
-        let el = parser.parseFromString(newElement, "text/xml");
         tableBody.insertAdjacentHTML("beforeend", newElement);
     })
     checkDateArrow();
