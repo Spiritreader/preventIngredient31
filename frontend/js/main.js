@@ -109,6 +109,7 @@ function showMenu(menu, day) {
     });
     if (localStorage.darkmode == "true") {
         $(".dish-content").toggleClass("dish-content-darkmode");
+        $(".categoryHeader").toggleClass("categoryHeader-darkmode");
     }
 }
 
@@ -321,7 +322,6 @@ function toggleDarkmode(button) {
     $(".thead-dark").toggleClass("thead-darkmode");
     $("table").toggleClass("table-darkmode");
     $("#menu-table-header > th").toggleClass("menu-table-header-darkmode");
-    $(".dish-content").toggleClass("dish-content-darkmode");
     $(".modal-content").toggleClass("modal-content-darkmode");
     $("#hiderMenu").toggleClass("hiderMenu-darkmode");
     $(".hider").toggleClass("hider-darkmode");
@@ -335,6 +335,8 @@ function toggleDarkmode(button) {
     $(".datePickerInput").toggleClass("datePickerInput-darkmode");
     $(".datePickerInput:focus").toggleClass("datePickerInput-darkmode:focus");
     $(".input-group-text").toggleClass("input-group-text-darkmode");
+    $(".dish-content").toggleClass("dish-content-darkmode");
+    $(".categoryHeader").toggleClass("categoryHeader-darkmode");
     toggleDropdownDarkmode();
     toggleFlatpickrDark();
 }
