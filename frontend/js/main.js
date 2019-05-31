@@ -302,7 +302,6 @@ $("#dark-mode-toggle").on("click", function () {
 });
 
 $(window).on('load', function () {
-    console.log($(".btn.dropdown-toggle"));
     $(".btn.dropdown-toggle").attr("id", "bs-select-btn");
     $("#bs-select-btn").on("click", selectpickerDmFix);
     if (localStorage.darkmode == "true") {
