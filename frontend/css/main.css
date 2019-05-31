@@ -205,6 +205,10 @@ input[type='checkbox'] {
     cursor: pointer;
 }
 
+.tooltip-inner {
+    background-color: #212121;
+}
+
 
 /*BEGIN: Dark mode options*/
 .body-darkmode {
