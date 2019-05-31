@@ -17,6 +17,8 @@ function init(mensaSelection) {
         if (!darkmodeEnabled) {
             toggleDarkmode($("#dark-mode-toggle"));
         }
+    } else {
+        document.getElementById("flatpickr-css-dark").disabled = true;
     }
     $('select[id=langSelect]').val(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
