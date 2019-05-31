@@ -335,6 +335,7 @@ function toggleDarkmode(button) {
     $(".input-group-text").toggleClass("input-group-text-darkmode");
     $(".dish-content").toggleClass("dish-content-darkmode");
     $(".categoryHeader").toggleClass("categoryHeader-darkmode");
+    toggleThemeColorDarkmode()
     toggleDropdownDarkmode();
     toggleFlatpickrDark();
 }
@@ -375,4 +376,14 @@ function toggleFlatpickrDark() {
         stylesheet.disabled = true;
         stylesheetDark.disabled = false;
     }
+}
+
+function toggleThemeColorDarkmode() {
+    var metaThemeColor = document.querySelector("meta[name=theme-color]");
+    if (metaThemeColor.getAttribute("content") == "black") {
+        metaThemeColor.setAttribute("content", "white");
+    } else if (metaThemeColor.getAttribute("content") == "white") {
+        metaThemeColor.setAttribute("content", "black");
+    }
+
 }
