@@ -9,9 +9,14 @@ let menuFirstDay;
 let menuLastDay;
 
 function init(mensaSelection) {
-    globalSelectedDate.setHours(12,0,0);
+    globalSelectedDate.setHours(12, 0, 0);
     if (localStorage.lang == null) {
         localStorage.lang = "de";
+    }
+    if (localStorage.darkmode == "true") {
+        if (!darkmodeEnabled) {
+            toggleDarkmode($("#dark-mode-toggle"));
+        }
     }
     $('select[id=langSelect]').val(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
@@ -124,7 +129,6 @@ function init(mensaSelection) {
             hider.parentNode.removeChild(hider);
             hiderMenu.classList.remove("hiderMenu");
             spinnyBoi.classList.add("hide");
-
             yolo = true;
             showMenu(response, getYMDOnly(globalSelectedDate));
         } else {

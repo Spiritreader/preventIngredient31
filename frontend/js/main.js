@@ -1,6 +1,6 @@
 let excludeSup = [];
 let includeTags = [];
-
+let darkmodeEnabled = false;
 /**
  * Load new menu if a checkbox is checked/unchecked
  */
@@ -90,7 +90,7 @@ function showMenu(menu, day) {
         }
         let tags = dish.Tags;
         let newElement = "<tr><th colspan=\"3\" class=\"categoryHeader\">" + dish.Category + "</th></tr>" +
-            "<tr><td>" + dishItemList.join("") + "</td>" +
+            "<tr class=\"dish-content\"><td>" + dishItemList.join("") + "</td>" +
             "<td>" + dish.Pricing + "</td>" +
             "<td>";
         tags.forEach((tag) => {
@@ -107,6 +107,9 @@ function showMenu(menu, day) {
             boundary: 'window'
         })
     });
+    if (localStorage.darkmode == "true") {
+        $(".dish-content").toggleClass("dish-content-darkmode");
+    }
 }
 
 /**
@@ -283,3 +286,96 @@ $("#langSelect").on("change", function () {
     localStorage.lang = this.value;
     init(localStorage.lastSelectedUni);
 });
+
+$("#dark-mode-toggle").on("click", function () {
+    if (localStorage.darkmode == "true") {
+        localStorage.darkmode = "false";
+        darkmodeEnabled = false;
+    } else if (localStorage.darkmode == "false") {
+        localStorage.darkmode = "true";
+        darkmodeEnabled = true;
+    } else {
+        localStorage.darkmode = "true";
+        darkmodeEnabled = true;
+    }
+    toggleDarkmode(this);
+});
+
+$(window).on('load', function () {
+    console.log($(".btn.dropdown-toggle"));
+    $(".btn.dropdown-toggle").attr("id", "bs-select-btn");
+    $("#bs-select-btn").on("click", selectpickerDmFix);
+    if (localStorage.darkmode == "true") {
+        $(".dropdown-toggle").toggleClass("btn-light");
+        $(".dropdown-toggle").toggleClass("btn-dark");
+    }
+});
+
+function toggleDarkmode(button) {
+    $(button).toggleClass("btn-light");
+    $(button).toggleClass("btn-dark");
+    $(button).toggleClass("fa-moon");
+    $(button).toggleClass("fa-sun");
+    $("body").toggleClass("body-darkmode");
+    $("footer").toggleClass("page-footer-darkmode");
+    $(".thead-dark").toggleClass("thead-darkmode");
+    $("table").toggleClass("table-darkmode");
+    $("#menu-table-header > th").toggleClass("menu-table-header-darkmode");
+    $(".dish-content").toggleClass("dish-content-darkmode");
+    $(".modal-content").toggleClass("modal-content-darkmode");
+    $("#hiderMenu").toggleClass("hiderMenu-darkmode");
+    $(".hider").toggleClass("hider-darkmode");
+    $(".card").toggleClass("card-dark-mode");
+    $(".sups-cardboi").toggleClass("sups-cardboi-darkmode");
+    $(".allergens-cardboi").toggleClass("allergens-cardboi-darkmode");
+    $("#button-previous").toggleClass("navigation-button-darkmode");
+    $("#button-next").toggleClass("navigation-button-darkmode");
+    $("#button-previous").toggleClass("navigation-button-darkmode:hover");
+    $("#button-next").toggleClass("navigation-button-darkmode:hover");
+    $(".datePickerInput").toggleClass("datePickerInput-darkmode");
+    $(".datePickerInput:focus").toggleClass("datePickerInput-darkmode:focus");
+    $(".input-group-text").toggleClass("input-group-text-darkmode");
+    toggleDropdownDarkmode();
+    toggleFlatpickrDark();
+}
+
+function selectpickerDmFix() {
+    console.log("jannis");
+    if (localStorage.darkmode == "true") {
+        darkmodeEnabled = true;
+        $(".dropdown-toggle").addClass("btn-light");
+        $(".dropdown-toggle").addClass("btn-dark");
+        $(".dropdown-menu").addClass("dropdown-menu-darkmode");
+        $(".dropdown-item").addClass("dropdown-item-darkmode");
+        $(".dropdown-item").addClass("dropdown-item-darkmode:hover");
+    }
+    if (!darkmodeEnabled && $(".dropdown-menu").hasClass("dropdown-menu-darkmode")) {
+        $(".dropdown-menu").removeClass("dropdown-menu-darkmode");
+        $(".dropdown-item").removeClass("dropdown-item-darkmode");
+        $(".dropdown-item").removeClass("dropdown-item-darkmode:hover");
+    }
+    $("#bs-select-btn").unbind("click", selectpickerDmFix);
+}
+
+function toggleDropdownDarkmode() {
+    $(".dropdown-toggle").toggleClass("btn-light");
+    $(".dropdown-toggle").toggleClass("btn-dark");
+    $(".dropdown-menu").toggleClass("dropdown-menu-darkmode");
+    $(".dropdown-item").toggleClass("dropdown-item-darkmode");
+    $(".dropdown-item").toggleClass("dropdown-item-darkmode:hover");
+}
+
+function toggleFlatpickrDark() {
+    var stylesheet = document.getElementById("flatpickr-css");
+    var stylesheetDark = document.getElementById("flatpickr-css-dark");
+    if (stylesheet.disabled) {
+        stylesheet.disabled = false;
+    } else {
+        stylesheet.disabled = true;
+    }
+    if (stylesheetDark.disabled) {
+        stylesheetDark.disabled = false;
+    } else {
+        stylesheetDark.disabled = true;
+    }
+}

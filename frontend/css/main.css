@@ -1,6 +1,8 @@
 body {
     font-family: 'Titillium Web', sans-serif !important;
+    transition: all 0.1s ease-out;
 }
+
 
 .hider {
     height: 100vh;
@@ -52,6 +54,14 @@ body {
     width: 70px !important;
 }
 
+#dark-mode-toggle {
+    padding: 0.5em 0.35em;
+    border: 0px;
+    margin-right: 0px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 #filter-pillboi {
     margin: 0.4rem 0;
 }
@@ -63,6 +73,14 @@ body {
 
 #button-previous {
     margin-left: 10px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#button-next {
+    margin-right: 10px;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .disabled {
@@ -85,6 +103,8 @@ body {
 
 .datePickerInput {
     max-width: 80px;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .tagCheckboxImg {
@@ -97,8 +117,20 @@ body {
     padding: 0.6rem 0 0 12px !important;
 }
 
-.table td {
+.table td, .table th {
     border-top: 0;
+}
+
+.table thead th {
+    border-bottom: 0;
+}
+
+.dish-content {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.dish-content:last-child {
+    border-bottom: 0px;
 }
 
 .card-allergens {
@@ -173,8 +205,99 @@ input[type='checkbox'] {
     cursor: pointer;
 }
 
+
+/*BEGIN: Dark mode options*/
+.body-darkmode {
+    background-color: #000000;
+    transition: all 0.1s ease-out;
+    color: #bababa;
+}
+
+.menu-table-header-darkmode {
+    background-color: #191919;
+}
+
+.table-darkmode {
+    color: #bababa;
+}
+
+.dish-content-darkmode {
+    border-color: #242424 ;
+}
+
+.page-footer-darkmode {
+    background: #4b4b4b;
+}
+
+.modal-content-darkmode {
+    background-color: #212121;
+}
+
+.hider-darkmode {
+    background-color: #000000;
+}
+
+.hiderMenu-darkmode {
+    background-color: #000000;
+}
+
+.dropdown-menu-darkmode {
+    background-color: #000000;
+    color: #bababa !important;
+}
+
+.dropdown-item-darkmode {
+    color: #bababa;
+}
+
+.dropdown-item-darkmode:hover {
+    background-color: #212121;
+    color: #bababa;
+}
+
+.card-dark-mode {
+    background-color: #191919;
+}
+
+.allergens-cardboi-darkmode {
+    background-color: rgb(42, 72, 7);
+}
+
+.sups-cardboi-darkmode {
+    background-color: rgb(132, 44, 44);
+}
+
+.navigation-button-darkmode {
+    background-color: #343a40;
+    border-color: #4b4b4b;
+    color: #78b9ff;
+}
+
+.navigation-button-darkmode:hover {
+    background-color: #212121;
+    border-color: #4b4b4b;
+    color: #78b9ff;
+}
+
+.datePickerInput-darkmode {
+    background-color: #343a40 !important;
+    border-color: #4b4b3b;
+    color: lightgray;
+}
+
+.datePickerInput-darkmode:focus {
+    color: #78b9ff;
+}
+
+.input-group-text-darkmode {
+    color: #ffffff;
+    background-color: #343a40;
+    border-color: #4b4b4b;
+}
+/*END: Dark mode options*/
+
 @media (max-width: 720px) {
-    .btn {
+    .btn-primary, .btn-secondary {
         font-size: 0.95rem;
     }
     thead {
@@ -188,6 +311,27 @@ input[type='checkbox'] {
     }
 }
 
+@media (max-width: 420px) {
+    #uglyTitle {
+        font-size: 1.50rem;
+    }
+    #weekday {
+        font-size: 0.95rem;
+    }
+    .btn-primary, .btn-secondary {
+        font-size: 0.90rem;
+    }
+    thead {
+        font-size: 0.85rem;
+    }
+    tbody {
+        font-size: 0.75rem;
+    }
+    .footer-copyright {
+        font-size: 0.70rem;
+    }
+}
+
 @media (max-width: 350px) {
     #uglyTitle {
         font-size: 1.50rem;
@@ -195,7 +339,7 @@ input[type='checkbox'] {
     #weekday {
         font-size: 0.95rem;
     }
-    .btn {
+    .btn-primary, .btn-secondary {
         font-size: 0.90rem;
     }
     thead {
