@@ -370,12 +370,9 @@ function toggleFlatpickrDark() {
     var stylesheetDark = document.getElementById("flatpickr-css-dark");
     if (stylesheet.disabled) {
         stylesheet.disabled = false;
+        stylesheetDark.disabled = true;
     } else {
         stylesheet.disabled = true;
-    }
-    if (stylesheetDark.disabled) {
         stylesheetDark.disabled = false;
-    } else {
-        stylesheetDark.disabled = true;
     }
 }
