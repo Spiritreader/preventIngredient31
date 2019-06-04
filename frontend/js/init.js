@@ -13,12 +13,11 @@ function init(mensaSelection) {
     if (localStorage.lang == null) {
         localStorage.lang = "de";
     }
+    document.getElementById("flatpickr-css-dark").disabled = true;
     if (localStorage.darkmode == "true") {
         if (!darkmodeEnabled) {
             toggleDarkmode($("#dark-mode-toggle"));
         }
-    } else {
-        document.getElementById("flatpickr-css-dark").disabled = true;
     }
     $('select[id=langSelect]').val(localStorage.lang);
     localStorage.lastSelectedUni = mensaSelection;
