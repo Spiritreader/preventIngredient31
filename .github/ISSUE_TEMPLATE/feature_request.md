@@ -13,7 +13,6 @@ A clear and concise description of what you want to happen that currently isn't 
 **Provide a short description of the feature**
 Bullet point representation of your idea
 
-
 **How does your feature improve Mensauni?**
 A clear and concise description of what gains you hope Mensauni to achieve from your idea
 
