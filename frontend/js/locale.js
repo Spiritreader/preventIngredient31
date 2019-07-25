@@ -74,8 +74,8 @@ const locale = {
             "headingCategory": "Kategorie",
             "undefined": "nicht angegeben",
             "aboutText": "MenSauni wurde erschaffen, um ein besseres Auslesen der Mensa Speisepläne von Seezeit zu ermöglichen. <br>"
-                + "Mithilfe des Filters können Additive, Zusatzstoffe ausgeschlossen sowie Kategorien ausgewählt werden. <br>"
-                + "Zudem stehen alle Mensen zur Verfügung die Seezeit anbietet. "
+                + "Mithilfe des Filters können Additive und Zusatzstoffe ausgeschlossen sowie Kategorien ausgewählt werden. <br>"
+                + "Zudem stehen alle Mensen zur Verfügung, die Seezeit anbietet. "
                 + "Dazu einfach die Region mit dem Pfeil in der Tabellenüberschrift der Mensa anklicken.",
             "disclaimerText": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, " 
                 + "Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. " 
