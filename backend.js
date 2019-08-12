@@ -79,7 +79,19 @@ function getAllMenus(dom) {
 
 function convertXmltoJson(xml) {
     menus = [];
-    if (!xml) {
+    if (!xml || !xml.speiseplan || xml.speiseplan.length <= 1) {
+        menus.push({
+            date: new Date(),
+            dishes: [{
+                Name: "no data available",
+                Category: "",
+                Pricing: "",
+                PricingSchool: "",
+                PricingEmp: "",
+                PricingGuest: "",
+                Tags: []
+            }]
+        })
         return menus;
     }
     xml.speiseplan.tag.forEach((day) => {
@@ -151,6 +163,9 @@ function convertXmltoJson(xml) {
  * @param {*} string String with supplement list in the form of /\(\d.*\)/
  */
 function getSupplements(string) {
+    if (!string) {
+        return [];
+    }
     let ingredients = string.split("|");
     let supplements = [];
     ingredients.forEach((ing) => {
