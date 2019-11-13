@@ -53,6 +53,9 @@ function getAllMenus(dom) {
                 if (currentMenu[j].textContent.includes("Fleischbällchen")) {
                     currentMenu[j].textContent = currentMenu[j].textContent.replace("Fleischbällchen", "leischbällchen")
                 }
+                if (currentMenu[j].textContent.includes("Züricher")) {
+                    currentMenu[j].textContent = currentMenu[j].textContent.replace("Züricher", "Zürcher")
+                } 
             }
             let tagElements = currentMenu[j].parentElement.parentElement.getElementsByClassName("speiseplanTagKatIcon");
             let menuItem = {
@@ -110,6 +113,8 @@ function convertXmltoJson(xml) {
                     case "45": tags.push("Sch");
                     break; 
                     case "46": tags.push("R");
+                    break; 
+                    case "47": tags.push("R");
                     break; 
                     case "48": tags.push("L");
                     break; 
