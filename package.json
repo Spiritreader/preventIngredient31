@@ -13,12 +13,14 @@
     "author": "WALZEN Inc.",
     "license": "MIT",
     "dependencies": {
+        "bootstrap": "^4.4.1",
         "cors": "^2.8.5",
         "express": "^4.16.4",
-        "helmet": "^3.16.0",
+        "helmet": "^3.21.2",
         "http": "0.0.0",
         "jsdom": "^14.0.0",
         "memory-cache": "^0.2.0",
+        "react-bootstrap": "^1.0.0-beta.16",
         "xml2js": "^0.4.19"
     }
 }
