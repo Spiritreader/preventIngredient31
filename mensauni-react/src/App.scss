@@ -73,6 +73,10 @@ body.dark-mode {
   min-height: 100vh;
 }
 
+.collapsing {
+  transition: all 0.4s ease;
+}
+
 .unselectable {
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
