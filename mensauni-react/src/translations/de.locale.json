@@ -1,0 +1,12 @@
+{
+    "canteen": "Mensa",
+    "language": "Sprache",
+    "canteenList": {
+        "giessberg": "Mensaria Giessberg",
+        "htwg": "Suppaküch HTWG",
+        "weingarten": "Weingarten Weingarten",
+        "ravensburg": "Essenspalast Ravensburg",
+        "friedrichshafen": "Kantine Friedrichshafen"
+    },
+    "boi": "Samuel"
+}

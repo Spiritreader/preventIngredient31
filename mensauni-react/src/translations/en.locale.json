@@ -1,0 +1,12 @@
+{
+    "canteen": "Canteen",
+    "language": "Language",
+    "canteenList": {
+        "giessberg": "Giessberg Canteen",
+        "htwg": "HTWG Canteen",
+        "weingarten": "Weingarten Canteen",
+        "ravensburg": "Ravensburg Canteen",
+        "friedrichshafen": "Friedrichshafen Canteen"
+    },
+    "boi": "Sam"
+}

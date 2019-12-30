@@ -1,0 +1,126 @@
+$transition-duration: 0.5s;
+$theme-switch: background-color $transition-duration ease;
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+body.light-mode {
+  transition: $theme-switch;
+  
+  .border-right {
+    transition: border $transition-duration ease;
+  }
+
+  .border-bottom {
+    transition: border $transition-duration ease;
+  }
+}
+
+body.dark-mode {
+  transition: background-color 0.25s ease;
+
+  .border-right {
+    transition: border $transition-duration ease;
+  }
+
+  .border-bottom {
+    transition: border $transition-duration ease;
+  }
+
+  .Sidebar {
+    transition: background-color $transition-duration ease;
+    background-color: rgb(32, 32, 32);
+    border-right-color: rgb(22, 22, 22) !important;
+  }
+
+  .nav-item {
+    border-bottom-color: rgb(80, 80, 80) !important;
+  }
+  .submenu {
+    border-bottom-color: black;
+  }
+  color: rgb(221, 221, 221);
+  background-color: #282c34;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Sidebar {
+  min-width: 18rem;
+  min-height: 100vh;
+}
+
+.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.Content {
+  width: 100%;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.nav-item {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.menu-caret {
+  margin-right: 0.3rem;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.submenu {
+  padding-top: 10px;
+  margin-bottom: 0px;
+}
+
+.submenu > li {
+  cursor: pointer;
+}
+
+.highlighted {
+  color: #c62828;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
