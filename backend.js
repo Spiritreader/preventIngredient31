@@ -255,9 +255,9 @@ function handleApiV2Get(req, res) {
         if (statusCode !== 200) {
             error = new Error('Request Failed.\n' +
                 `Status Code: ${statusCode}`);
-        } else if (!/^application\/xml/.test(contentType)) {
+        } else if (!/^[a-zA-Z]+\/xml/.test(contentType)) {
             error = new Error('Invalid content-type.\n' +
-                `Expected application/xml but received ${contentType}`);
+                `Expected [a-zA-Z]/xml but received ${contentType}`);
         }
         if (error) {
             console.error(error.message);
