@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  mensauni:
+    container_name: mensauni
+    image: ghcr.io/spiritreader/preventingredient31:master
+    ports:
+      - 8000:8080
